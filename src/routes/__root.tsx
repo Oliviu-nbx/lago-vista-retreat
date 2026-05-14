@@ -74,11 +74,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "Appartamento in affitto — Viale degli Alpini 12, Lago di Garda" },
       { name: "description", content: "Appartamento privato in affitto a pochi passi dal Parco Naturale dell'Alto Garda Bresciano. Eleganza italiana, vista mozzafiato e comfort moderno." },
-      { property: "og:title", content: "Appartamento sul Lago di Garda — Viale degli Alpini 12" },
-      { property: "og:description", content: "Il tuo rifugio sul Lago di Garda. Appartamento privato vicino al Parco Naturale dell'Alto Garda Bresciano." },
+      { property: "og:title", content: "Appartamento in affitto — Viale degli Alpini 12, Lago di Garda" },
+      { property: "og:description", content: "Appartamento privato in affitto a pochi passi dal Parco Naturale dell'Alto Garda Bresciano. Eleganza italiana, vista mozzafiato e comfort moderno." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "Appartamento in affitto — Viale degli Alpini 12, Lago di Garda" },
+      { name: "twitter:description", content: "Appartamento privato in affitto a pochi passi dal Parco Naturale dell'Alto Garda Bresciano. Eleganza italiana, vista mozzafiato e comfort moderno." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/d20706b9-1625-4dda-b2b9-10d62eec52f8/id-preview-d0c2cfd8--095bce1a-0286-4436-8d9a-1549219273bd.lovable.app-1778762225162.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/d20706b9-1625-4dda-b2b9-10d62eec52f8/id-preview-d0c2cfd8--095bce1a-0286-4436-8d9a-1549219273bd.lovable.app-1778762225162.png" },
     ],
     links: [
       {

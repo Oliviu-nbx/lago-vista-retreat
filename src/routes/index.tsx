@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import {
   Wifi, UtensilsCrossed, Car, Snowflake, Tv, Sun, WashingMachine,
@@ -11,6 +11,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
+import { useI18n } from "@/lib/i18n";
+import { LanguageToggle } from "@/components/LanguageToggle";
+import { CookieConsent } from "@/components/CookieConsent";
 
 import view from "@/assets/apartment/view.png";
 import bedroom from "@/assets/apartment/bedroom.jpg";
@@ -38,25 +41,6 @@ const gallery = [
   { src: kitchenHall, alt: "Cucina attrezzata e ingresso dell'appartamento" },
   { src: bedroom, alt: "Camera da letto matrimoniale recentemente rinnovata" },
   { src: bathroom, alt: "Bagno moderno con doccia e lavatrice" },
-];
-
-const amenityGroups: { title: string; items: string[] }[] = [
-  { title: "I più richiesti", items: ["Parcheggio privato gratuito", "Wi-Fi gratuito", "Aria condizionata", "Terrazza", "Balcone", "Smart TV", "Lavatrice", "Doccia"] },
-  { title: "Cucina", items: ["Tavolo da pranzo", "Macchina da caffè", "Piano cottura", "Forno", "Microonde", "Frigorifero", "Bollitore elettrico", "Stoviglie", "Prodotti per la pulizia", "Asciugatrice"] },
-  { title: "Bagno", items: ["Vasca o doccia", "Bidet", "Asciugacapelli", "Articoli da toeletta gratuiti", "Asciugamani", "Carta igienica"] },
-  { title: "Soggiorno & camera", items: ["Zona pranzo", "Divano", "Zona salotto", "Biancheria", "Armadio", "Cabina armadio", "Divano letto", "Pavimenti in parquet", "Riscaldamento", "Ventilatore"] },
-  { title: "Esterni", items: ["Barbecue", "Patio", "Balcone", "Terrazza", "Vista montagna", "Vista giardino"] },
-  { title: "Media", items: ["Smart TV", "Canali cavo & satellite", "Lettore CD", "Radio"] },
-  { title: "Extra", items: ["Non fumatori", "Libri, DVD e musica per bambini", "Set per tè/caffè"] },
-];
-
-const categoryScores = [
-  { label: "Personale", score: 9.4 },
-  { label: "Servizi", score: 9.7 },
-  { label: "Pulizia", score: 9.2 },
-  { label: "Comfort", score: 9.7 },
-  { label: "Rapporto qualità-prezzo", score: 9.5 },
-  { label: "Posizione", score: 9.2 },
 ];
 
 function useReveal() {

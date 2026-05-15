@@ -65,19 +65,20 @@ function useReveal() {
 function Nav() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const { t } = useI18n();
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
     onScroll();
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-  const links = [
-    ["#about", "Appartamento"],
-    ["#gallery", "Galleria"],
-    ["#amenities", "Servizi"],
-    ["#reviews", "Recensioni"],
-    ["#location", "Posizione"],
-    ["#contact", "Contatti"],
+  const links: [string, string][] = [
+    ["#about", t.nav.about],
+    ["#gallery", t.nav.gallery],
+    ["#amenities", t.nav.amenities],
+    ["#reviews", t.nav.reviews],
+    ["#location", t.nav.location],
+    ["#contact", t.nav.contact],
   ];
   return (
     <header
@@ -101,6 +102,7 @@ function Nav() {
               {l}
             </a>
           ))}
+          <LanguageToggle dark={!scrolled} />
           <a
             href={BOOKING}
             target="_blank"
@@ -108,16 +110,19 @@ function Nav() {
             className="inline-flex items-center gap-2 h-9 px-4 rounded-sm text-sm font-medium text-white transition-opacity hover:opacity-90"
             style={{ backgroundColor: BOOKING_BLUE }}
           >
-            Book on Booking.com
+            {t.nav.book}
           </a>
         </div>
-        <button
-          className={`md:hidden ${scrolled ? "text-foreground" : "text-white"}`}
-          onClick={() => setOpen((v) => !v)}
-          aria-label="Menu"
-        >
-          {open ? <X /> : <Menu />}
-        </button>
+        <div className="md:hidden flex items-center gap-3">
+          <LanguageToggle dark={!scrolled} />
+          <button
+            className={scrolled ? "text-foreground" : "text-white"}
+            onClick={() => setOpen((v) => !v)}
+            aria-label="Menu"
+          >
+            {open ? <X /> : <Menu />}
+          </button>
+        </div>
       </nav>
       {open && (
         <div className="md:hidden bg-background/95 backdrop-blur-md border-b border-border px-6 py-4 flex flex-col gap-4">
@@ -134,7 +139,7 @@ function Nav() {
             className="inline-flex items-center justify-center h-10 px-4 rounded-sm text-sm font-medium text-white"
             style={{ backgroundColor: BOOKING_BLUE }}
           >
-            Book on Booking.com
+            {t.nav.book}
           </a>
         </div>
       )}
@@ -143,6 +148,7 @@ function Nav() {
 }
 
 function Hero() {
+  const { t } = useI18n();
   return (
     <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
       <img
@@ -153,16 +159,16 @@ function Hero() {
       <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-black/30 to-black/75" />
       <div className="relative z-10 text-center px-6 max-w-4xl">
         <p className="reveal text-white/80 tracking-[0.3em] text-xs md:text-sm uppercase mb-6">
-          Peschiera del Garda · Lago di Garda · Italia
+          {t.hero.eyebrow}
         </p>
         <h1 className="reveal font-serif text-5xl md:text-7xl lg:text-8xl text-white leading-[1.05] font-light">
-          Marin Apartment
+          {t.hero.title}
         </h1>
         <p className="reveal mt-6 text-lg md:text-2xl text-white/90 font-light font-serif italic">
-          Il tuo rifugio elegante sul Lago di Garda — Peschiera del Garda
+          {t.hero.subtitle}
         </p>
         <p className="reveal mt-3 text-base md:text-lg text-white/75 max-w-2xl mx-auto font-light">
-          A recently renovated 52 m² apartment, steps from Lake Garda and 10 minutes from the historic center.
+          {t.hero.desc}
         </p>
 
         <div className="reveal mt-6 inline-flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-white/90 text-sm">
@@ -171,9 +177,9 @@ function Hero() {
               <Star key={i} className="w-4 h-4 fill-current" strokeWidth={0} />
             ))}
           </span>
-          <span className="font-semibold">8.9 — Fabulous</span>
+          <span className="font-semibold">{t.hero.ratingLabel}</span>
           <span className="opacity-70">·</span>
-          <span>Verified on Booking.com (8 reviews)</span>
+          <span>{t.hero.verified}</span>
         </div>
 
         <div className="reveal mt-8 flex flex-wrap items-center justify-center gap-4">
@@ -184,61 +190,47 @@ function Hero() {
             className="inline-flex items-center gap-2 h-12 px-8 rounded-sm text-white font-medium shadow-lg transition-transform hover:-translate-y-0.5"
             style={{ backgroundColor: BOOKING_BLUE }}
           >
-            Book on Booking.com <ExternalLink className="w-4 h-4" />
+            {t.hero.ctaBook} <ExternalLink className="w-4 h-4" />
           </a>
           <a
             href="#contact"
             className="inline-flex items-center h-12 px-8 rounded-sm border border-white/50 text-white hover:bg-white hover:text-foreground transition-colors"
           >
-            Contact the host
+            {t.hero.ctaContact}
           </a>
         </div>
       </div>
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/60 text-xs tracking-widest uppercase animate-pulse">
-        Scorri ↓
+        {t.hero.scroll}
       </div>
     </section>
   );
 }
 
 function About() {
+  const { t } = useI18n();
   return (
     <section id="about" className="py-24 md:py-32 px-6">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-14 reveal">
-          <p className="text-primary tracking-[0.25em] text-xs uppercase mb-4">L'Appartamento</p>
-          <h2 className="font-serif text-4xl md:text-5xl leading-tight">
-            Un rifugio raffinato a Peschiera del Garda
-          </h2>
-          <p className="mt-4 text-muted-foreground text-sm md:text-base">
-            52 m² · Una camera da letto · 3° piano (senza ascensore) · Fino a 4 ospiti · Recentemente rinnovato
-          </p>
+          <p className="text-primary tracking-[0.25em] text-xs uppercase mb-4">{t.about.eyebrow}</p>
+          <h2 className="font-serif text-4xl md:text-5xl leading-tight">{t.about.title}</h2>
+          <p className="mt-4 text-muted-foreground text-sm md:text-base">{t.about.meta}</p>
         </div>
 
         <div className="grid md:grid-cols-12 gap-12 items-center">
           <div className="md:col-span-7 reveal space-y-8 text-muted-foreground text-lg leading-relaxed font-light">
             <div>
-              <h3 className="font-serif text-2xl text-foreground mb-2">Comfortable Living Space</h3>
-              <p>
-                Marin Apartment in Peschiera del Garda offers a one-bedroom apartment with a living room,
-                terrace, balcony, and free WiFi — a serene retreat just steps from Lake Garda.
-              </p>
+              <h3 className="font-serif text-2xl text-foreground mb-2">{t.about.h1}</h3>
+              <p>{t.about.p1}</p>
             </div>
             <div>
-              <h3 className="font-serif text-2xl text-foreground mb-2">Modern Amenities</h3>
-              <p>
-                The apartment includes air conditioning (heat pump), a fully equipped kitchenette, washing
-                machine, and free on-site private parking. Dining area, sofa bed, and warm parquet floors
-                complete the space.
-              </p>
+              <h3 className="font-serif text-2xl text-foreground mb-2">{t.about.h2}</h3>
+              <p>{t.about.p2}</p>
             </div>
             <div>
-              <h3 className="font-serif text-2xl text-foreground mb-2">Convenient Location</h3>
-              <p>
-                Just 2.2 km from Bergamini Beach, 3.9 km from Gardaland, and 18 km from Verona Airport.
-                The Peschiera del Garda train station is only 2 km away, with direct connections to Verona,
-                Venice, and Milan.
-              </p>
+              <h3 className="font-serif text-2xl text-foreground mb-2">{t.about.h3}</h3>
+              <p>{t.about.p3}</p>
             </div>
           </div>
           <div className="md:col-span-5 reveal">
@@ -249,8 +241,8 @@ function About() {
                 className="w-full h-[480px] object-cover rounded-sm shadow-[var(--shadow-elegant)]"
               />
               <div className="absolute -bottom-6 -left-6 bg-background border border-border px-6 py-4 rounded-sm shadow-[var(--shadow-soft)] hidden md:block">
-                <p className="font-serif text-2xl text-primary">Fino a 4 ospiti</p>
-                <p className="text-xs text-muted-foreground tracking-widest uppercase">52 m² · 1 camera</p>
+                <p className="font-serif text-2xl text-primary">{t.about.badgeGuests}</p>
+                <p className="text-xs text-muted-foreground tracking-widest uppercase">{t.about.badgeMeta}</p>
               </div>
             </div>
           </div>

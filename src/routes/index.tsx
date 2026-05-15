@@ -458,49 +458,14 @@ function Reviews() {
 }
 
 function Neighborhood() {
-  const groups = [
-    {
-      title: "Right outside the door",
-      items: [
-        "Lago di Garda — 0 m",
-        "Parco degli Aviatori — 800 m",
-        "Parco Catullo — 1.2 km",
-        "Centro storico & mura veneziane UNESCO — ~10 min a piedi",
-        "La Botteghina restaurant — 300 m",
-        "Trattoria Bar Alba e Nicola — 350 m",
-        "La Bottega della Piada — 450 m",
-      ],
-    },
-    {
-      title: "Top attractions",
-      items: [
-        "Bergamini Beach — 2.2 km",
-        "Gardaland — 3.9 km",
-        "Tower of San Martino della Battaglia — 9 km",
-        "Sirmione Castle — 10 km",
-        "Olive Oil Museum — 11 km",
-        "Grottoes of Catullus — 11 km",
-        "Parco Giardino Sigurtà — 12 km",
-        "Parco Natura Viva — 12 km",
-      ],
-    },
-    {
-      title: "Getting here",
-      items: [
-        "Verona Airport — 18 km",
-        "Montichiari Airport — 29 km",
-        "Bergamo Orio al Serio — 84 km",
-        "Peschiera del Garda train station — 2 km",
-        "Direct trains to Verona, Venice, Milan",
-      ],
-    },
-  ];
+  const { t } = useI18n();
+  const groups = t.neighborhood.groups as { title: string; items: string[] }[];
   return (
     <section className="py-24 md:py-32 px-6">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-14 reveal">
-          <p className="text-primary tracking-[0.25em] text-xs uppercase mb-4">Dintorni</p>
-          <h2 className="font-serif text-4xl md:text-5xl">The neighborhood</h2>
+          <p className="text-primary tracking-[0.25em] text-xs uppercase mb-4">{t.neighborhood.eyebrow}</p>
+          <h2 className="font-serif text-4xl md:text-5xl">{t.neighborhood.title}</h2>
         </div>
         <div className="grid md:grid-cols-3 gap-8">
           {groups.map((g) => (
@@ -520,31 +485,27 @@ function Neighborhood() {
 }
 
 function Location() {
+  const { t } = useI18n();
   return (
     <section id="location" className="py-24 md:py-32 px-6 bg-muted/40">
       <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
         <div className="reveal">
-          <p className="text-primary tracking-[0.25em] text-xs uppercase mb-4">Posizione</p>
+          <p className="text-primary tracking-[0.25em] text-xs uppercase mb-4">{t.location.eyebrow}</p>
           <h2 className="font-serif text-4xl md:text-5xl mb-8">
-            Sulla riva sud<br />del Lago di Garda.
+            {t.location.title1}<br />{t.location.title2}
           </h2>
           <div className="space-y-4 text-muted-foreground text-lg font-light leading-relaxed">
             <p>
-              Marin Apartment si trova in <span className="text-foreground font-medium">Viale degli Alpini 12/A</span>,
-              "Residenza Girasole Palazzina A" Nr. 31, a Peschiera del Garda (provincia di Verona),
-              sulla sponda veneta del lago.
+              {t.location.p1pre}<span className="text-foreground font-medium">{t.location.address}</span>{t.location.p1post}
             </p>
-            <p>
-              A pochi passi dall'acqua, dalle mura veneziane patrimonio UNESCO e dai migliori ristoranti
-              del centro storico — la base perfetta per scoprire il Lago di Garda meridionale.
-            </p>
+            <p>{t.location.p2}</p>
           </div>
           <div className="mt-8 space-y-2 text-foreground">
             <div className="flex items-start gap-3">
               <MapPin className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
-              <span className="font-medium">Viale degli Alpini 12/A, 37019 Peschiera del Garda (VR), Italia</span>
+              <span className="font-medium">{t.location.addressFull}</span>
             </div>
-            <p className="text-xs text-muted-foreground tracking-wider uppercase ml-8">Licenza: 023059-LOC-01989</p>
+            <p className="text-xs text-muted-foreground tracking-wider uppercase ml-8">{t.location.license}</p>
           </div>
         </div>
         <div className="reveal aspect-[4/3] rounded-sm overflow-hidden shadow-[var(--shadow-elegant)] border border-border">
@@ -562,21 +523,14 @@ function Location() {
 }
 
 function HouseRules() {
-  const rules = [
-    { label: "Check-in", value: "15:00 – 23:00 (preavviso richiesto)" },
-    { label: "Check-out", value: "08:00 – 11:00" },
-    { label: "Fumo", value: "Non fumatori" },
-    { label: "Animali", value: "Non ammessi" },
-    { label: "Feste/Eventi", value: "Non consentiti" },
-    { label: "Bambini", value: "Benvenuti dai 3 anni in su" },
-    { label: "Parcheggio", value: "Privato gratuito in loco" },
-  ];
+  const { t } = useI18n();
+  const rules = t.rules.list as { label: string; value: string }[];
   return (
     <section className="py-20 px-6">
       <div className="max-w-5xl mx-auto reveal">
         <div className="text-center mb-10">
-          <p className="text-primary tracking-[0.25em] text-xs uppercase mb-3">House rules</p>
-          <h2 className="font-serif text-3xl md:text-4xl">Regole della casa</h2>
+          <p className="text-primary tracking-[0.25em] text-xs uppercase mb-3">{t.rules.eyebrow}</p>
+          <h2 className="font-serif text-3xl md:text-4xl">{t.rules.title}</h2>
         </div>
         <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-px bg-border rounded-sm overflow-hidden">
           {rules.map((r) => (

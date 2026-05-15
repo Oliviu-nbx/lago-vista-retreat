@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import {
   Wifi, UtensilsCrossed, Car, Snowflake, Tv, Sun, WashingMachine,
@@ -11,6 +11,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
+import { useI18n } from "@/lib/i18n";
+import { LanguageToggle } from "@/components/LanguageToggle";
+import { CookieConsent } from "@/components/CookieConsent";
 
 import view from "@/assets/apartment/view.png";
 import bedroom from "@/assets/apartment/bedroom.jpg";
@@ -40,25 +43,6 @@ const gallery = [
   { src: bathroom, alt: "Bagno moderno con doccia e lavatrice" },
 ];
 
-const amenityGroups: { title: string; items: string[] }[] = [
-  { title: "I più richiesti", items: ["Parcheggio privato gratuito", "Wi-Fi gratuito", "Aria condizionata", "Terrazza", "Balcone", "Smart TV", "Lavatrice", "Doccia"] },
-  { title: "Cucina", items: ["Tavolo da pranzo", "Macchina da caffè", "Piano cottura", "Forno", "Microonde", "Frigorifero", "Bollitore elettrico", "Stoviglie", "Prodotti per la pulizia", "Asciugatrice"] },
-  { title: "Bagno", items: ["Vasca o doccia", "Bidet", "Asciugacapelli", "Articoli da toeletta gratuiti", "Asciugamani", "Carta igienica"] },
-  { title: "Soggiorno & camera", items: ["Zona pranzo", "Divano", "Zona salotto", "Biancheria", "Armadio", "Cabina armadio", "Divano letto", "Pavimenti in parquet", "Riscaldamento", "Ventilatore"] },
-  { title: "Esterni", items: ["Barbecue", "Patio", "Balcone", "Terrazza", "Vista montagna", "Vista giardino"] },
-  { title: "Media", items: ["Smart TV", "Canali cavo & satellite", "Lettore CD", "Radio"] },
-  { title: "Extra", items: ["Non fumatori", "Libri, DVD e musica per bambini", "Set per tè/caffè"] },
-];
-
-const categoryScores = [
-  { label: "Personale", score: 9.4 },
-  { label: "Servizi", score: 9.7 },
-  { label: "Pulizia", score: 9.2 },
-  { label: "Comfort", score: 9.7 },
-  { label: "Rapporto qualità-prezzo", score: 9.5 },
-  { label: "Posizione", score: 9.2 },
-];
-
 function useReveal() {
   useEffect(() => {
     const els = document.querySelectorAll(".reveal");
@@ -81,19 +65,20 @@ function useReveal() {
 function Nav() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const { t } = useI18n();
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
     onScroll();
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-  const links = [
-    ["#about", "Appartamento"],
-    ["#gallery", "Galleria"],
-    ["#amenities", "Servizi"],
-    ["#reviews", "Recensioni"],
-    ["#location", "Posizione"],
-    ["#contact", "Contatti"],
+  const links: [string, string][] = [
+    ["#about", t.nav.about],
+    ["#gallery", t.nav.gallery],
+    ["#amenities", t.nav.amenities],
+    ["#reviews", t.nav.reviews],
+    ["#location", t.nav.location],
+    ["#contact", t.nav.contact],
   ];
   return (
     <header
@@ -117,6 +102,7 @@ function Nav() {
               {l}
             </a>
           ))}
+          <LanguageToggle dark={!scrolled} />
           <a
             href={BOOKING}
             target="_blank"
@@ -124,16 +110,19 @@ function Nav() {
             className="inline-flex items-center gap-2 h-9 px-4 rounded-sm text-sm font-medium text-white transition-opacity hover:opacity-90"
             style={{ backgroundColor: BOOKING_BLUE }}
           >
-            Book on Booking.com
+            {t.nav.book}
           </a>
         </div>
-        <button
-          className={`md:hidden ${scrolled ? "text-foreground" : "text-white"}`}
-          onClick={() => setOpen((v) => !v)}
-          aria-label="Menu"
-        >
-          {open ? <X /> : <Menu />}
-        </button>
+        <div className="md:hidden flex items-center gap-3">
+          <LanguageToggle dark={!scrolled} />
+          <button
+            className={scrolled ? "text-foreground" : "text-white"}
+            onClick={() => setOpen((v) => !v)}
+            aria-label="Menu"
+          >
+            {open ? <X /> : <Menu />}
+          </button>
+        </div>
       </nav>
       {open && (
         <div className="md:hidden bg-background/95 backdrop-blur-md border-b border-border px-6 py-4 flex flex-col gap-4">
@@ -150,7 +139,7 @@ function Nav() {
             className="inline-flex items-center justify-center h-10 px-4 rounded-sm text-sm font-medium text-white"
             style={{ backgroundColor: BOOKING_BLUE }}
           >
-            Book on Booking.com
+            {t.nav.book}
           </a>
         </div>
       )}
@@ -159,6 +148,7 @@ function Nav() {
 }
 
 function Hero() {
+  const { t } = useI18n();
   return (
     <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
       <img
@@ -169,16 +159,16 @@ function Hero() {
       <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-black/30 to-black/75" />
       <div className="relative z-10 text-center px-6 max-w-4xl">
         <p className="reveal text-white/80 tracking-[0.3em] text-xs md:text-sm uppercase mb-6">
-          Peschiera del Garda · Lago di Garda · Italia
+          {t.hero.eyebrow}
         </p>
         <h1 className="reveal font-serif text-5xl md:text-7xl lg:text-8xl text-white leading-[1.05] font-light">
-          Marin Apartment
+          {t.hero.title}
         </h1>
         <p className="reveal mt-6 text-lg md:text-2xl text-white/90 font-light font-serif italic">
-          Il tuo rifugio elegante sul Lago di Garda — Peschiera del Garda
+          {t.hero.subtitle}
         </p>
         <p className="reveal mt-3 text-base md:text-lg text-white/75 max-w-2xl mx-auto font-light">
-          A recently renovated 52 m² apartment, steps from Lake Garda and 10 minutes from the historic center.
+          {t.hero.desc}
         </p>
 
         <div className="reveal mt-6 inline-flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-white/90 text-sm">
@@ -187,9 +177,9 @@ function Hero() {
               <Star key={i} className="w-4 h-4 fill-current" strokeWidth={0} />
             ))}
           </span>
-          <span className="font-semibold">8.9 — Fabulous</span>
+          <span className="font-semibold">{t.hero.ratingLabel}</span>
           <span className="opacity-70">·</span>
-          <span>Verified on Booking.com (8 reviews)</span>
+          <span>{t.hero.verified}</span>
         </div>
 
         <div className="reveal mt-8 flex flex-wrap items-center justify-center gap-4">
@@ -200,61 +190,47 @@ function Hero() {
             className="inline-flex items-center gap-2 h-12 px-8 rounded-sm text-white font-medium shadow-lg transition-transform hover:-translate-y-0.5"
             style={{ backgroundColor: BOOKING_BLUE }}
           >
-            Book on Booking.com <ExternalLink className="w-4 h-4" />
+            {t.hero.ctaBook} <ExternalLink className="w-4 h-4" />
           </a>
           <a
             href="#contact"
             className="inline-flex items-center h-12 px-8 rounded-sm border border-white/50 text-white hover:bg-white hover:text-foreground transition-colors"
           >
-            Contact the host
+            {t.hero.ctaContact}
           </a>
         </div>
       </div>
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/60 text-xs tracking-widest uppercase animate-pulse">
-        Scorri ↓
+        {t.hero.scroll}
       </div>
     </section>
   );
 }
 
 function About() {
+  const { t } = useI18n();
   return (
     <section id="about" className="py-24 md:py-32 px-6">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-14 reveal">
-          <p className="text-primary tracking-[0.25em] text-xs uppercase mb-4">L'Appartamento</p>
-          <h2 className="font-serif text-4xl md:text-5xl leading-tight">
-            Un rifugio raffinato a Peschiera del Garda
-          </h2>
-          <p className="mt-4 text-muted-foreground text-sm md:text-base">
-            52 m² · Una camera da letto · 3° piano (senza ascensore) · Fino a 4 ospiti · Recentemente rinnovato
-          </p>
+          <p className="text-primary tracking-[0.25em] text-xs uppercase mb-4">{t.about.eyebrow}</p>
+          <h2 className="font-serif text-4xl md:text-5xl leading-tight">{t.about.title}</h2>
+          <p className="mt-4 text-muted-foreground text-sm md:text-base">{t.about.meta}</p>
         </div>
 
         <div className="grid md:grid-cols-12 gap-12 items-center">
           <div className="md:col-span-7 reveal space-y-8 text-muted-foreground text-lg leading-relaxed font-light">
             <div>
-              <h3 className="font-serif text-2xl text-foreground mb-2">Comfortable Living Space</h3>
-              <p>
-                Marin Apartment in Peschiera del Garda offers a one-bedroom apartment with a living room,
-                terrace, balcony, and free WiFi — a serene retreat just steps from Lake Garda.
-              </p>
+              <h3 className="font-serif text-2xl text-foreground mb-2">{t.about.h1}</h3>
+              <p>{t.about.p1}</p>
             </div>
             <div>
-              <h3 className="font-serif text-2xl text-foreground mb-2">Modern Amenities</h3>
-              <p>
-                The apartment includes air conditioning (heat pump), a fully equipped kitchenette, washing
-                machine, and free on-site private parking. Dining area, sofa bed, and warm parquet floors
-                complete the space.
-              </p>
+              <h3 className="font-serif text-2xl text-foreground mb-2">{t.about.h2}</h3>
+              <p>{t.about.p2}</p>
             </div>
             <div>
-              <h3 className="font-serif text-2xl text-foreground mb-2">Convenient Location</h3>
-              <p>
-                Just 2.2 km from Bergamini Beach, 3.9 km from Gardaland, and 18 km from Verona Airport.
-                The Peschiera del Garda train station is only 2 km away, with direct connections to Verona,
-                Venice, and Milan.
-              </p>
+              <h3 className="font-serif text-2xl text-foreground mb-2">{t.about.h3}</h3>
+              <p>{t.about.p3}</p>
             </div>
           </div>
           <div className="md:col-span-5 reveal">
@@ -265,8 +241,8 @@ function About() {
                 className="w-full h-[480px] object-cover rounded-sm shadow-[var(--shadow-elegant)]"
               />
               <div className="absolute -bottom-6 -left-6 bg-background border border-border px-6 py-4 rounded-sm shadow-[var(--shadow-soft)] hidden md:block">
-                <p className="font-serif text-2xl text-primary">Fino a 4 ospiti</p>
-                <p className="text-xs text-muted-foreground tracking-widest uppercase">52 m² · 1 camera</p>
+                <p className="font-serif text-2xl text-primary">{t.about.badgeGuests}</p>
+                <p className="text-xs text-muted-foreground tracking-widest uppercase">{t.about.badgeMeta}</p>
               </div>
             </div>
           </div>
@@ -278,6 +254,7 @@ function About() {
 
 function Gallery() {
   const [idx, setIdx] = useState<number | null>(null);
+  const { t } = useI18n();
   const close = () => setIdx(null);
   const next = () => setIdx((i) => (i === null ? null : (i + 1) % gallery.length));
   const prev = () => setIdx((i) => (i === null ? null : (i - 1 + gallery.length) % gallery.length));
@@ -300,8 +277,8 @@ function Gallery() {
     <section id="gallery" className="py-24 md:py-32 px-6 bg-muted/40">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16 reveal">
-          <p className="text-primary tracking-[0.25em] text-xs uppercase mb-4">Galleria</p>
-          <h2 className="font-serif text-4xl md:text-5xl">Spazi che raccontano una storia</h2>
+          <p className="text-primary tracking-[0.25em] text-xs uppercase mb-4">{t.gallery.eyebrow}</p>
+          <h2 className="font-serif text-4xl md:text-5xl">{t.gallery.title}</h2>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 auto-rows-[200px] md:auto-rows-[260px]">
           {gallery.map((img, i) => {
@@ -332,10 +309,10 @@ function Gallery() {
           className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4"
           onClick={close}
         >
-          <button className="absolute top-6 right-6 text-white/80 hover:text-white" onClick={close} aria-label="Chiudi">
+          <button className="absolute top-6 right-6 text-white/80 hover:text-white" onClick={close} aria-label={t.gallery.close}>
             <X size={32} />
           </button>
-          <button className="absolute left-4 md:left-8 text-white/80 hover:text-white" onClick={(e) => { e.stopPropagation(); prev(); }} aria-label="Precedente">
+          <button className="absolute left-4 md:left-8 text-white/80 hover:text-white" onClick={(e) => { e.stopPropagation(); prev(); }} aria-label={t.gallery.prev}>
             <ChevronLeft size={40} />
           </button>
           <img
@@ -344,7 +321,7 @@ function Gallery() {
             className="max-h-[88vh] max-w-[90vw] object-contain"
             onClick={(e) => e.stopPropagation()}
           />
-          <button className="absolute right-4 md:right-8 text-white/80 hover:text-white" onClick={(e) => { e.stopPropagation(); next(); }} aria-label="Successiva">
+          <button className="absolute right-4 md:right-8 text-white/80 hover:text-white" onClick={(e) => { e.stopPropagation(); next(); }} aria-label={t.gallery.next}>
             <ChevronRight size={40} />
           </button>
           <p className="absolute bottom-6 left-0 right-0 text-center text-white/70 text-sm">
@@ -357,34 +334,31 @@ function Gallery() {
 }
 
 function Amenities() {
+  const { t } = useI18n();
+  const iconLabels: string[] = t.amenities.icons;
+  const icons = [Car, Wifi, Snowflake, Sun, UtensilsCrossed, WashingMachine, Tv, Coffee];
   return (
     <section id="amenities" className="py-24 md:py-32 px-6">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-14 reveal">
-          <p className="text-primary tracking-[0.25em] text-xs uppercase mb-4">Servizi</p>
-          <h2 className="font-serif text-4xl md:text-5xl">Tutto ciò che serve, con stile</h2>
+          <p className="text-primary tracking-[0.25em] text-xs uppercase mb-4">{t.amenities.eyebrow}</p>
+          <h2 className="font-serif text-4xl md:text-5xl">{t.amenities.title}</h2>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-border rounded-sm overflow-hidden mb-12">
-          {[
-            { icon: Car, label: "Parcheggio privato gratuito" },
-            { icon: Wifi, label: "Wi-Fi gratuito" },
-            { icon: Snowflake, label: "Aria condizionata" },
-            { icon: Sun, label: "Terrazza & balcone" },
-            { icon: UtensilsCrossed, label: "Cucina attrezzata" },
-            { icon: WashingMachine, label: "Lavatrice & asciugatrice" },
-            { icon: Tv, label: "Smart TV" },
-            { icon: Coffee, label: "Macchina da caffè" },
-          ].map(({ icon: Icon, label }, i) => (
-            <div key={i} className="reveal bg-background p-8 flex flex-col items-center text-center gap-3 hover:bg-muted/40 transition-colors">
-              <Icon className="w-7 h-7 text-primary" strokeWidth={1.4} />
-              <p className="text-sm text-foreground/80">{label}</p>
-            </div>
-          ))}
+          {iconLabels.map((label, i) => {
+            const Icon = icons[i];
+            return (
+              <div key={i} className="reveal bg-background p-8 flex flex-col items-center text-center gap-3 hover:bg-muted/40 transition-colors">
+                <Icon className="w-7 h-7 text-primary" strokeWidth={1.4} />
+                <p className="text-sm text-foreground/80">{label}</p>
+              </div>
+            );
+          })}
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 reveal">
-          {amenityGroups.map((g) => (
+          {(t.amenities.groups as { title: string; items: string[] }[]).map((g) => (
             <div key={g.title} className="bg-card border border-border rounded-sm p-6">
               <h3 className="font-serif text-xl text-foreground mb-3">{g.title}</h3>
               <ul className="text-sm text-muted-foreground space-y-1.5">
@@ -397,7 +371,7 @@ function Amenities() {
         </div>
 
         <p className="reveal mt-10 text-center text-sm text-muted-foreground">
-          <span className="font-medium text-foreground">Lingue parlate dall'host:</span> 🇩🇪 Deutsch · 🇬🇧 English · 🇮🇹 Italiano
+          <span className="font-medium text-foreground">{t.amenities.langs}</span> 🇩🇪 Deutsch · 🇬🇧 English · 🇮🇹 Italiano
         </p>
       </div>
     </section>
@@ -405,12 +379,13 @@ function Amenities() {
 }
 
 function Reviews() {
+  const { t } = useI18n();
   return (
     <section id="reviews" className="py-24 md:py-32 px-6 bg-muted/40">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12 reveal">
-          <p className="text-primary tracking-[0.25em] text-xs uppercase mb-4">Recensioni</p>
-          <h2 className="font-serif text-4xl md:text-5xl">Reviews from Booking.com</h2>
+          <p className="text-primary tracking-[0.25em] text-xs uppercase mb-4">{t.reviews.eyebrow}</p>
+          <h2 className="font-serif text-4xl md:text-5xl">{t.reviews.title}</h2>
         </div>
 
         <div className="reveal flex flex-wrap items-center gap-6 mb-10">
@@ -419,8 +394,8 @@ function Reviews() {
             style={{ backgroundColor: BOOKING_DARK }}
           >
             <div className="text-5xl font-bold leading-none">8.9</div>
-            <div className="mt-1 text-lg font-semibold">Fabulous</div>
-            <div className="text-xs opacity-80">8 verified reviews</div>
+            <div className="mt-1 text-lg font-semibold">{t.reviews.ratingWord}</div>
+            <div className="text-xs opacity-80">{t.reviews.verifiedReviews}</div>
           </div>
           <div className="text-2xl font-bold tracking-tight" style={{ color: BOOKING_BLUE }}>
             Booking<span style={{ color: BOOKING_DARK }}>.com</span>
@@ -428,7 +403,7 @@ function Reviews() {
         </div>
 
         <div className="reveal grid grid-cols-2 md:grid-cols-3 gap-x-8 gap-y-5 mb-14">
-          {categoryScores.map((c) => (
+          {(t.reviews.categories as { label: string; score: number }[]).map((c) => (
             <div key={c.label}>
               <div className="flex justify-between text-sm mb-1.5">
                 <span className="text-foreground/80">{c.label}</span>
@@ -445,10 +420,7 @@ function Reviews() {
         </div>
 
         <div className="grid md:grid-cols-2 gap-6">
-          {[
-            { name: "Vitalii", flag: "🇩🇪", quote: "We enjoyed it very much. We would love to come back. The communication was excellent, everything was clean and comfortable. The kitchen has everything you need. We were very satisfied. I can definitely recommend it." },
-            { name: "Piero", flag: "🇮🇹", quote: "Excellent quiet location. 10-minute walk from the center. Access to private road with parking. 3rd-floor apartment without elevator, recently renovated, large and comfortable rooms. Heating with radiators and heat pump air conditioning. Beautiful…" },
-          ].map((r) => (
+          {(t.reviews.cards as { name: string; flag: string; quote: string }[]).map((r) => (
             <div key={r.name} className="reveal bg-background border border-border rounded-lg p-7 shadow-[var(--shadow-soft)]">
               <p className="italic text-foreground/85 leading-relaxed">"{r.quote}"</p>
               <p className="mt-4 text-sm font-medium text-foreground">{r.name} <span className="ml-1">{r.flag}</span></p>
@@ -457,7 +429,7 @@ function Reviews() {
         </div>
 
         <p className="reveal mt-6 text-center text-xs text-muted-foreground">
-          Verified reviews from guests who actually stayed at Marin Apartment.
+          {t.reviews.footnote}
         </p>
 
         <div className="reveal mt-10 flex flex-wrap items-center justify-center gap-4">
@@ -468,7 +440,7 @@ function Reviews() {
             className="inline-flex items-center gap-2 h-12 px-7 rounded-sm text-white font-medium hover:opacity-90 transition-opacity"
             style={{ backgroundColor: BOOKING_BLUE }}
           >
-            Read all reviews on Booking.com <ExternalLink className="w-4 h-4" />
+            {t.reviews.ctaAll} <ExternalLink className="w-4 h-4" />
           </a>
           <a
             href={BOOKING}
@@ -477,7 +449,7 @@ function Reviews() {
             className="inline-flex items-center h-12 px-7 rounded-sm border-2 font-medium hover:bg-muted transition-colors"
             style={{ borderColor: BOOKING_BLUE, color: BOOKING_BLUE }}
           >
-            Check availability & book
+            {t.reviews.ctaCheck}
           </a>
         </div>
       </div>
@@ -486,49 +458,14 @@ function Reviews() {
 }
 
 function Neighborhood() {
-  const groups = [
-    {
-      title: "Right outside the door",
-      items: [
-        "Lago di Garda — 0 m",
-        "Parco degli Aviatori — 800 m",
-        "Parco Catullo — 1.2 km",
-        "Centro storico & mura veneziane UNESCO — ~10 min a piedi",
-        "La Botteghina restaurant — 300 m",
-        "Trattoria Bar Alba e Nicola — 350 m",
-        "La Bottega della Piada — 450 m",
-      ],
-    },
-    {
-      title: "Top attractions",
-      items: [
-        "Bergamini Beach — 2.2 km",
-        "Gardaland — 3.9 km",
-        "Tower of San Martino della Battaglia — 9 km",
-        "Sirmione Castle — 10 km",
-        "Olive Oil Museum — 11 km",
-        "Grottoes of Catullus — 11 km",
-        "Parco Giardino Sigurtà — 12 km",
-        "Parco Natura Viva — 12 km",
-      ],
-    },
-    {
-      title: "Getting here",
-      items: [
-        "Verona Airport — 18 km",
-        "Montichiari Airport — 29 km",
-        "Bergamo Orio al Serio — 84 km",
-        "Peschiera del Garda train station — 2 km",
-        "Direct trains to Verona, Venice, Milan",
-      ],
-    },
-  ];
+  const { t } = useI18n();
+  const groups = t.neighborhood.groups as { title: string; items: string[] }[];
   return (
     <section className="py-24 md:py-32 px-6">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-14 reveal">
-          <p className="text-primary tracking-[0.25em] text-xs uppercase mb-4">Dintorni</p>
-          <h2 className="font-serif text-4xl md:text-5xl">The neighborhood</h2>
+          <p className="text-primary tracking-[0.25em] text-xs uppercase mb-4">{t.neighborhood.eyebrow}</p>
+          <h2 className="font-serif text-4xl md:text-5xl">{t.neighborhood.title}</h2>
         </div>
         <div className="grid md:grid-cols-3 gap-8">
           {groups.map((g) => (
@@ -548,31 +485,27 @@ function Neighborhood() {
 }
 
 function Location() {
+  const { t } = useI18n();
   return (
     <section id="location" className="py-24 md:py-32 px-6 bg-muted/40">
       <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
         <div className="reveal">
-          <p className="text-primary tracking-[0.25em] text-xs uppercase mb-4">Posizione</p>
+          <p className="text-primary tracking-[0.25em] text-xs uppercase mb-4">{t.location.eyebrow}</p>
           <h2 className="font-serif text-4xl md:text-5xl mb-8">
-            Sulla riva sud<br />del Lago di Garda.
+            {t.location.title1}<br />{t.location.title2}
           </h2>
           <div className="space-y-4 text-muted-foreground text-lg font-light leading-relaxed">
             <p>
-              Marin Apartment si trova in <span className="text-foreground font-medium">Viale degli Alpini 12/A</span>,
-              "Residenza Girasole Palazzina A" Nr. 31, a Peschiera del Garda (provincia di Verona),
-              sulla sponda veneta del lago.
+              {t.location.p1pre}<span className="text-foreground font-medium">{t.location.address}</span>{t.location.p1post}
             </p>
-            <p>
-              A pochi passi dall'acqua, dalle mura veneziane patrimonio UNESCO e dai migliori ristoranti
-              del centro storico — la base perfetta per scoprire il Lago di Garda meridionale.
-            </p>
+            <p>{t.location.p2}</p>
           </div>
           <div className="mt-8 space-y-2 text-foreground">
             <div className="flex items-start gap-3">
               <MapPin className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
-              <span className="font-medium">Viale degli Alpini 12/A, 37019 Peschiera del Garda (VR), Italia</span>
+              <span className="font-medium">{t.location.addressFull}</span>
             </div>
-            <p className="text-xs text-muted-foreground tracking-wider uppercase ml-8">Licenza: 023059-LOC-01989</p>
+            <p className="text-xs text-muted-foreground tracking-wider uppercase ml-8">{t.location.license}</p>
           </div>
         </div>
         <div className="reveal aspect-[4/3] rounded-sm overflow-hidden shadow-[var(--shadow-elegant)] border border-border">
@@ -590,21 +523,14 @@ function Location() {
 }
 
 function HouseRules() {
-  const rules = [
-    { label: "Check-in", value: "15:00 – 23:00 (preavviso richiesto)" },
-    { label: "Check-out", value: "08:00 – 11:00" },
-    { label: "Fumo", value: "Non fumatori" },
-    { label: "Animali", value: "Non ammessi" },
-    { label: "Feste/Eventi", value: "Non consentiti" },
-    { label: "Bambini", value: "Benvenuti dai 3 anni in su" },
-    { label: "Parcheggio", value: "Privato gratuito in loco" },
-  ];
+  const { t } = useI18n();
+  const rules = t.rules.list as { label: string; value: string }[];
   return (
     <section className="py-20 px-6">
       <div className="max-w-5xl mx-auto reveal">
         <div className="text-center mb-10">
-          <p className="text-primary tracking-[0.25em] text-xs uppercase mb-3">House rules</p>
-          <h2 className="font-serif text-3xl md:text-4xl">Regole della casa</h2>
+          <p className="text-primary tracking-[0.25em] text-xs uppercase mb-3">{t.rules.eyebrow}</p>
+          <h2 className="font-serif text-3xl md:text-4xl">{t.rules.title}</h2>
         </div>
         <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-px bg-border rounded-sm overflow-hidden">
           {rules.map((r) => (
@@ -622,6 +548,7 @@ function HouseRules() {
 function Contact() {
   const [sending, setSending] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
+  const { t } = useI18n();
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -632,19 +559,19 @@ function Contact() {
     const dates = String(fd.get("dates") || "").trim();
     const message = String(fd.get("message") || "").trim();
     if (!name || !email || !message) {
-      toast.error("Compila i campi richiesti.");
+      toast.error(t.contact.required);
       setSending(false);
       return;
     }
-    const subject = encodeURIComponent(`Marin Apartment — richiesta di ${name}`);
+    const subject = encodeURIComponent(`Marin Apartment — ${t.contact.requestSubject} ${name}`);
     const body = encodeURIComponent(
-      `Nome: ${name}\nEmail: ${email}\nDate: ${dates}\n\nMessaggio:\n${message}`
+      `${t.contact.name}: ${name}\n${t.contact.email}: ${email}\n${t.contact.dates}: ${dates}\n\n${t.contact.message}:\n${message}`
     );
     window.location.href = `mailto:${EMAIL}?subject=${subject}&body=${body}`;
     setTimeout(() => {
       setSending(false);
       formRef.current?.reset();
-      toast.success("Apertura del client email…");
+      toast.success(t.contact.mailOpen);
     }, 500);
   };
 
@@ -652,14 +579,11 @@ function Contact() {
     <section id="contact" className="py-24 md:py-32 px-6">
       <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16">
         <div className="reveal">
-          <p className="text-primary tracking-[0.25em] text-xs uppercase mb-4">Contatti</p>
+          <p className="text-primary tracking-[0.25em] text-xs uppercase mb-4">{t.contact.eyebrow}</p>
           <h2 className="font-serif text-4xl md:text-5xl mb-8">
-            Parliamone.<br />Il vostro soggiorno inizia qui.
+            {t.contact.title1}<br />{t.contact.title2}
           </h2>
-          <p className="text-muted-foreground text-lg font-light mb-8 leading-relaxed">
-            Scrivete direttamente all'host per disponibilità o domande — risposta entro 24 ore.
-            Oppure prenotate in pochi click su Booking.com.
-          </p>
+          <p className="text-muted-foreground text-lg font-light mb-8 leading-relaxed">{t.contact.desc}</p>
           <a
             href={BOOKING}
             target="_blank"
@@ -667,7 +591,7 @@ function Contact() {
             className="inline-flex items-center gap-2 h-11 px-6 mb-10 rounded-sm text-white font-medium hover:opacity-90 transition-opacity"
             style={{ backgroundColor: BOOKING_BLUE }}
           >
-            Book on Booking.com <ExternalLink className="w-4 h-4" />
+            {t.nav.book} <ExternalLink className="w-4 h-4" />
           </a>
           <ul className="space-y-5">
             <li>
@@ -676,7 +600,7 @@ function Contact() {
                   <Mail className="w-5 h-5 text-primary" />
                 </span>
                 <span>
-                  <span className="block text-xs tracking-widest uppercase text-muted-foreground">Email</span>
+                  <span className="block text-xs tracking-widest uppercase text-muted-foreground">{t.contact.email}</span>
                   <span className="text-base">{EMAIL}</span>
                 </span>
               </a>
@@ -687,7 +611,7 @@ function Contact() {
                   <Phone className="w-5 h-5 text-primary" />
                 </span>
                 <span>
-                  <span className="block text-xs tracking-widest uppercase text-muted-foreground">Telefono</span>
+                  <span className="block text-xs tracking-widest uppercase text-muted-foreground">{t.contact.phone}</span>
                   <span className="text-base">{PHONE}</span>
                 </span>
               </a>
@@ -698,7 +622,7 @@ function Contact() {
                   <MessageCircle className="w-5 h-5 text-primary" />
                 </span>
                 <span>
-                  <span className="block text-xs tracking-widest uppercase text-muted-foreground">WhatsApp</span>
+                  <span className="block text-xs tracking-widest uppercase text-muted-foreground">{t.contact.whatsapp}</span>
                   <span className="text-base">{PHONE}</span>
                 </span>
               </a>
@@ -708,23 +632,23 @@ function Contact() {
 
         <form ref={formRef} onSubmit={onSubmit} className="reveal bg-card border border-border rounded-sm p-8 md:p-10 shadow-[var(--shadow-soft)] space-y-5">
           <div>
-            <Label htmlFor="name">Nome *</Label>
+            <Label htmlFor="name">{t.contact.name} *</Label>
             <Input id="name" name="name" required maxLength={100} className="mt-2" />
           </div>
           <div>
-            <Label htmlFor="email">Email *</Label>
+            <Label htmlFor="email">{t.contact.email} *</Label>
             <Input id="email" name="email" type="email" required maxLength={255} className="mt-2" />
           </div>
           <div>
-            <Label htmlFor="dates">Date desiderate</Label>
-            <Input id="dates" name="dates" placeholder="es. 12–19 luglio" maxLength={100} className="mt-2" />
+            <Label htmlFor="dates">{t.contact.dates}</Label>
+            <Input id="dates" name="dates" placeholder={t.contact.datesPh} maxLength={100} className="mt-2" />
           </div>
           <div>
-            <Label htmlFor="message">Messaggio *</Label>
+            <Label htmlFor="message">{t.contact.message} *</Label>
             <Textarea id="message" name="message" rows={5} required maxLength={1500} className="mt-2" />
           </div>
           <Button type="submit" disabled={sending} className="w-full bg-primary hover:bg-primary/90 h-12">
-            {sending ? "Invio…" : "Invia richiesta"}
+            {sending ? t.contact.sending : t.contact.send}
           </Button>
         </form>
       </div>
@@ -733,37 +657,42 @@ function Contact() {
 }
 
 function Footer() {
+  const { t } = useI18n();
   return (
     <footer className="bg-accent text-accent-foreground py-14 px-6">
-      <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-10">
+      <div className="max-w-7xl mx-auto grid md:grid-cols-4 gap-10">
         <div>
           <p className="font-serif text-2xl mb-3">Marin Apartment</p>
-          <p className="text-accent-foreground/70 text-sm leading-relaxed">
-            Appartamento privato recentemente rinnovato sulla riva sud del Lago di Garda,
-            a Peschiera del Garda (VR).
-          </p>
+          <p className="text-accent-foreground/70 text-sm leading-relaxed">{t.footer.desc}</p>
         </div>
         <div>
-          <p className="text-xs tracking-widest uppercase text-accent-foreground/60 mb-3">Indirizzo</p>
+          <p className="text-xs tracking-widest uppercase text-accent-foreground/60 mb-3">{t.footer.addressLabel}</p>
           <p className="text-sm leading-relaxed">
             Viale degli Alpini 12/A<br />
             "Residenza Girasole Palazzina A" Nr. 31, 2° piano<br />
             37019 Peschiera del Garda (VR), Italia
           </p>
-          <p className="mt-3 text-xs text-accent-foreground/60">Licenza: 023059-LOC-01989</p>
+          <p className="mt-3 text-xs text-accent-foreground/60">{t.location.license}</p>
         </div>
         <div>
-          <p className="text-xs tracking-widest uppercase text-accent-foreground/60 mb-3">Contatti</p>
+          <p className="text-xs tracking-widest uppercase text-accent-foreground/60 mb-3">{t.footer.contactsLabel}</p>
           <div className="text-sm space-y-1">
             <a href={`mailto:${EMAIL}`} className="block hover:text-primary transition-colors">{EMAIL}</a>
             <a href={`tel:${PHONE_RAW}`} className="block hover:text-primary transition-colors">{PHONE}</a>
-            <a href={WHATSAPP} target="_blank" rel="noreferrer" className="block hover:text-primary transition-colors">WhatsApp</a>
-            <a href={BOOKING} target="_blank" rel="noopener" className="block hover:text-primary transition-colors">Book on Booking.com</a>
+            <a href={WHATSAPP} target="_blank" rel="noreferrer" className="block hover:text-primary transition-colors">{t.contact.whatsapp}</a>
+            <a href={BOOKING} target="_blank" rel="noopener" className="block hover:text-primary transition-colors">{t.nav.book}</a>
+          </div>
+        </div>
+        <div>
+          <p className="text-xs tracking-widest uppercase text-accent-foreground/60 mb-3">{t.footer.legal}</p>
+          <div className="text-sm space-y-1">
+            <Link to="/terms" className="block hover:text-primary transition-colors">{t.footer.terms}</Link>
+            <Link to="/cookie-policy" className="block hover:text-primary transition-colors">{t.footer.cookies}</Link>
           </div>
         </div>
       </div>
       <div className="max-w-7xl mx-auto mt-12 pt-6 border-t border-accent-foreground/15 text-xs text-accent-foreground/50 text-center">
-        © {new Date().getFullYear()} Marin Apartment · Peschiera del Garda. Tutti i diritti riservati.
+        © {new Date().getFullYear()} Marin Apartment · Peschiera del Garda. {t.footer.rights}
       </div>
     </footer>
   );
@@ -785,6 +714,7 @@ function WhatsAppFloat() {
 
 function StickyBookingBar() {
   const [show, setShow] = useState(false);
+  const { t } = useI18n();
   useEffect(() => {
     const onScroll = () => setShow(window.scrollY > window.innerHeight * 0.9);
     onScroll();
@@ -803,9 +733,9 @@ function StickyBookingBar() {
           >
             8.9
           </span>
-          <span className="text-sm font-medium">Fabulous</span>
+          <span className="text-sm font-medium">{t.booking.ratingWord}</span>
         </div>
-        <p className="text-xs text-muted-foreground leading-snug">Marin Apartment — direttamente dall'host</p>
+        <p className="text-xs text-muted-foreground leading-snug">{t.booking.directHost}</p>
         <a
           href={BOOKING}
           target="_blank"
@@ -813,7 +743,7 @@ function StickyBookingBar() {
           className="inline-flex items-center justify-center h-10 rounded-sm text-white text-sm font-medium hover:opacity-90 transition-opacity"
           style={{ backgroundColor: BOOKING_BLUE }}
         >
-          Book on Booking.com
+          {t.nav.book}
         </a>
       </div>
       {/* Mobile: bottom bar */}
@@ -826,7 +756,7 @@ function StickyBookingBar() {
         </span>
         <div className="flex-1 min-w-0">
           <p className="text-xs font-medium leading-tight truncate">Marin Apartment</p>
-          <p className="text-[10px] text-muted-foreground leading-tight">Fabulous · 8 reviews</p>
+          <p className="text-[10px] text-muted-foreground leading-tight">{t.booking.ratingWord} · {t.booking.reviewsShort}</p>
         </div>
         <a
           href={BOOKING}
@@ -835,7 +765,7 @@ function StickyBookingBar() {
           className="inline-flex items-center justify-center h-10 px-4 rounded-sm text-white text-sm font-medium flex-shrink-0"
           style={{ backgroundColor: BOOKING_BLUE }}
         >
-          Book
+          {t.booking.bookShort}
         </a>
       </div>
     </>
@@ -861,6 +791,7 @@ function Index() {
       <Footer />
       <WhatsAppFloat />
       <StickyBookingBar />
+      <CookieConsent />
       <Toaster />
     </div>
   );

@@ -839,10 +839,33 @@ function WhatsAppFloat() {
       target="_blank"
       rel="noreferrer"
       aria-label="Contattaci su WhatsApp"
-      className="fixed bottom-20 right-4 lg:bottom-6 lg:right-6 z-40 w-14 h-14 rounded-full bg-[#25D366] text-white flex items-center justify-center shadow-[var(--shadow-elegant)] hover:scale-110 transition-transform"
+      className="w-14 h-14 rounded-full bg-[#25D366] text-white flex items-center justify-center shadow-[var(--shadow-elegant)] hover:scale-110 transition-transform"
     >
       <MessageCircle className="w-7 h-7" />
     </a>
+  );
+}
+
+function LanguageFloat() {
+  const { lang, setLang } = useI18n();
+  const next = lang === "it" ? "en" : "it";
+  return (
+    <button
+      onClick={() => setLang(next)}
+      aria-label={`Switch language to ${next.toUpperCase()}`}
+      className="w-14 h-14 rounded-full bg-background border border-border text-foreground font-semibold text-sm flex items-center justify-center shadow-[var(--shadow-elegant)] hover:scale-110 transition-transform"
+    >
+      {lang.toUpperCase()}
+    </button>
+  );
+}
+
+function FloatingActions() {
+  return (
+    <div className="fixed bottom-20 right-4 lg:bottom-6 lg:right-6 z-40 flex flex-col items-center gap-3">
+      <LanguageFloat />
+      <WhatsAppFloat />
+    </div>
   );
 }
 
@@ -924,7 +947,7 @@ function Index() {
         <Contact />
       </main>
       <Footer />
-      <WhatsAppFloat />
+      <FloatingActions />
       <StickyBookingBar />
       <CookieConsent />
       <Toaster />

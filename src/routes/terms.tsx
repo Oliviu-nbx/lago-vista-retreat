@@ -5,7 +5,10 @@ export const Route = createFileRoute("/terms")({
   head: () => ({
     meta: [
       { title: "Terms & Conditions — Marin Apartment" },
-      { name: "description", content: "Terms and conditions for booking Marin Apartment in Peschiera del Garda." },
+      {
+        name: "description",
+        content: "Terms and conditions for booking Marin Apartment in Peschiera del Garda.",
+      },
       { name: "robots", content: "noindex" },
     ],
   }),

@@ -4,11 +4,7 @@ import { LanguageToggle } from "./LanguageToggle";
 
 type Section = { h: string; p: string };
 
-export function LegalPage({
-  kind,
-}: {
-  kind: "terms" | "cookies";
-}) {
+export function LegalPage({ kind }: { kind: "terms" | "cookies" }) {
   const { t } = useI18n();
   const data = t.legal[kind] as { title: string; intro: string; sections: Section[] };
   const updated = "2026-01-15";
@@ -17,7 +13,9 @@ export function LegalPage({
     <div className="bg-background text-foreground min-h-screen">
       <header className="border-b border-border">
         <div className="max-w-3xl mx-auto px-6 lg:px-10 h-16 flex items-center justify-between">
-          <Link to="/" className="font-serif text-xl tracking-wide">Marin Apartment</Link>
+          <Link to="/" className="font-serif text-xl tracking-wide">
+            Marin Apartment
+          </Link>
           <LanguageToggle />
         </div>
       </header>

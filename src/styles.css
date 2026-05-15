@@ -160,19 +160,27 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  h1, h2, h3, h4, .font-serif {
+  h1,
+  h2,
+  h3,
+  h4,
+  .font-serif {
     font-family: var(--font-serif);
     letter-spacing: -0.01em;
   }
 
-  html { scroll-behavior: smooth; }
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 @layer utilities {
   .reveal {
     opacity: 0;
     transform: translateY(24px);
-    transition: opacity 0.9s ease-out, transform 0.9s ease-out;
+    transition:
+      opacity 0.9s ease-out,
+      transform 0.9s ease-out;
   }
   .reveal.in-view {
     opacity: 1;

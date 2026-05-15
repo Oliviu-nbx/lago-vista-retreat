@@ -254,6 +254,7 @@ function About() {
 
 function Gallery() {
   const [idx, setIdx] = useState<number | null>(null);
+  const { t } = useI18n();
   const close = () => setIdx(null);
   const next = () => setIdx((i) => (i === null ? null : (i + 1) % gallery.length));
   const prev = () => setIdx((i) => (i === null ? null : (i - 1 + gallery.length) % gallery.length));
@@ -276,8 +277,8 @@ function Gallery() {
     <section id="gallery" className="py-24 md:py-32 px-6 bg-muted/40">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16 reveal">
-          <p className="text-primary tracking-[0.25em] text-xs uppercase mb-4">Galleria</p>
-          <h2 className="font-serif text-4xl md:text-5xl">Spazi che raccontano una storia</h2>
+          <p className="text-primary tracking-[0.25em] text-xs uppercase mb-4">{t.gallery.eyebrow}</p>
+          <h2 className="font-serif text-4xl md:text-5xl">{t.gallery.title}</h2>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 auto-rows-[200px] md:auto-rows-[260px]">
           {gallery.map((img, i) => {
@@ -308,10 +309,10 @@ function Gallery() {
           className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4"
           onClick={close}
         >
-          <button className="absolute top-6 right-6 text-white/80 hover:text-white" onClick={close} aria-label="Chiudi">
+          <button className="absolute top-6 right-6 text-white/80 hover:text-white" onClick={close} aria-label={t.gallery.close}>
             <X size={32} />
           </button>
-          <button className="absolute left-4 md:left-8 text-white/80 hover:text-white" onClick={(e) => { e.stopPropagation(); prev(); }} aria-label="Precedente">
+          <button className="absolute left-4 md:left-8 text-white/80 hover:text-white" onClick={(e) => { e.stopPropagation(); prev(); }} aria-label={t.gallery.prev}>
             <ChevronLeft size={40} />
           </button>
           <img
@@ -320,7 +321,7 @@ function Gallery() {
             className="max-h-[88vh] max-w-[90vw] object-contain"
             onClick={(e) => e.stopPropagation()}
           />
-          <button className="absolute right-4 md:right-8 text-white/80 hover:text-white" onClick={(e) => { e.stopPropagation(); next(); }} aria-label="Successiva">
+          <button className="absolute right-4 md:right-8 text-white/80 hover:text-white" onClick={(e) => { e.stopPropagation(); next(); }} aria-label={t.gallery.next}>
             <ChevronRight size={40} />
           </button>
           <p className="absolute bottom-6 left-0 right-0 text-center text-white/70 text-sm">
@@ -333,34 +334,31 @@ function Gallery() {
 }
 
 function Amenities() {
+  const { t } = useI18n();
+  const iconLabels: string[] = t.amenities.icons;
+  const icons = [Car, Wifi, Snowflake, Sun, UtensilsCrossed, WashingMachine, Tv, Coffee];
   return (
     <section id="amenities" className="py-24 md:py-32 px-6">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-14 reveal">
-          <p className="text-primary tracking-[0.25em] text-xs uppercase mb-4">Servizi</p>
-          <h2 className="font-serif text-4xl md:text-5xl">Tutto ciò che serve, con stile</h2>
+          <p className="text-primary tracking-[0.25em] text-xs uppercase mb-4">{t.amenities.eyebrow}</p>
+          <h2 className="font-serif text-4xl md:text-5xl">{t.amenities.title}</h2>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-border rounded-sm overflow-hidden mb-12">
-          {[
-            { icon: Car, label: "Parcheggio privato gratuito" },
-            { icon: Wifi, label: "Wi-Fi gratuito" },
-            { icon: Snowflake, label: "Aria condizionata" },
-            { icon: Sun, label: "Terrazza & balcone" },
-            { icon: UtensilsCrossed, label: "Cucina attrezzata" },
-            { icon: WashingMachine, label: "Lavatrice & asciugatrice" },
-            { icon: Tv, label: "Smart TV" },
-            { icon: Coffee, label: "Macchina da caffè" },
-          ].map(({ icon: Icon, label }, i) => (
-            <div key={i} className="reveal bg-background p-8 flex flex-col items-center text-center gap-3 hover:bg-muted/40 transition-colors">
-              <Icon className="w-7 h-7 text-primary" strokeWidth={1.4} />
-              <p className="text-sm text-foreground/80">{label}</p>
-            </div>
-          ))}
+          {iconLabels.map((label, i) => {
+            const Icon = icons[i];
+            return (
+              <div key={i} className="reveal bg-background p-8 flex flex-col items-center text-center gap-3 hover:bg-muted/40 transition-colors">
+                <Icon className="w-7 h-7 text-primary" strokeWidth={1.4} />
+                <p className="text-sm text-foreground/80">{label}</p>
+              </div>
+            );
+          })}
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 reveal">
-          {amenityGroups.map((g) => (
+          {(t.amenities.groups as { title: string; items: string[] }[]).map((g) => (
             <div key={g.title} className="bg-card border border-border rounded-sm p-6">
               <h3 className="font-serif text-xl text-foreground mb-3">{g.title}</h3>
               <ul className="text-sm text-muted-foreground space-y-1.5">
@@ -373,7 +371,7 @@ function Amenities() {
         </div>
 
         <p className="reveal mt-10 text-center text-sm text-muted-foreground">
-          <span className="font-medium text-foreground">Lingue parlate dall'host:</span> 🇩🇪 Deutsch · 🇬🇧 English · 🇮🇹 Italiano
+          <span className="font-medium text-foreground">{t.amenities.langs}</span> 🇩🇪 Deutsch · 🇬🇧 English · 🇮🇹 Italiano
         </p>
       </div>
     </section>
@@ -381,12 +379,13 @@ function Amenities() {
 }
 
 function Reviews() {
+  const { t } = useI18n();
   return (
     <section id="reviews" className="py-24 md:py-32 px-6 bg-muted/40">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12 reveal">
-          <p className="text-primary tracking-[0.25em] text-xs uppercase mb-4">Recensioni</p>
-          <h2 className="font-serif text-4xl md:text-5xl">Reviews from Booking.com</h2>
+          <p className="text-primary tracking-[0.25em] text-xs uppercase mb-4">{t.reviews.eyebrow}</p>
+          <h2 className="font-serif text-4xl md:text-5xl">{t.reviews.title}</h2>
         </div>
 
         <div className="reveal flex flex-wrap items-center gap-6 mb-10">
@@ -395,8 +394,8 @@ function Reviews() {
             style={{ backgroundColor: BOOKING_DARK }}
           >
             <div className="text-5xl font-bold leading-none">8.9</div>
-            <div className="mt-1 text-lg font-semibold">Fabulous</div>
-            <div className="text-xs opacity-80">8 verified reviews</div>
+            <div className="mt-1 text-lg font-semibold">{t.reviews.ratingWord}</div>
+            <div className="text-xs opacity-80">{t.reviews.verifiedReviews}</div>
           </div>
           <div className="text-2xl font-bold tracking-tight" style={{ color: BOOKING_BLUE }}>
             Booking<span style={{ color: BOOKING_DARK }}>.com</span>
@@ -404,7 +403,7 @@ function Reviews() {
         </div>
 
         <div className="reveal grid grid-cols-2 md:grid-cols-3 gap-x-8 gap-y-5 mb-14">
-          {categoryScores.map((c) => (
+          {(t.reviews.categories as { label: string; score: number }[]).map((c) => (
             <div key={c.label}>
               <div className="flex justify-between text-sm mb-1.5">
                 <span className="text-foreground/80">{c.label}</span>
@@ -421,10 +420,7 @@ function Reviews() {
         </div>
 
         <div className="grid md:grid-cols-2 gap-6">
-          {[
-            { name: "Vitalii", flag: "🇩🇪", quote: "We enjoyed it very much. We would love to come back. The communication was excellent, everything was clean and comfortable. The kitchen has everything you need. We were very satisfied. I can definitely recommend it." },
-            { name: "Piero", flag: "🇮🇹", quote: "Excellent quiet location. 10-minute walk from the center. Access to private road with parking. 3rd-floor apartment without elevator, recently renovated, large and comfortable rooms. Heating with radiators and heat pump air conditioning. Beautiful…" },
-          ].map((r) => (
+          {(t.reviews.cards as { name: string; flag: string; quote: string }[]).map((r) => (
             <div key={r.name} className="reveal bg-background border border-border rounded-lg p-7 shadow-[var(--shadow-soft)]">
               <p className="italic text-foreground/85 leading-relaxed">"{r.quote}"</p>
               <p className="mt-4 text-sm font-medium text-foreground">{r.name} <span className="ml-1">{r.flag}</span></p>
@@ -433,7 +429,7 @@ function Reviews() {
         </div>
 
         <p className="reveal mt-6 text-center text-xs text-muted-foreground">
-          Verified reviews from guests who actually stayed at Marin Apartment.
+          {t.reviews.footnote}
         </p>
 
         <div className="reveal mt-10 flex flex-wrap items-center justify-center gap-4">
@@ -444,7 +440,7 @@ function Reviews() {
             className="inline-flex items-center gap-2 h-12 px-7 rounded-sm text-white font-medium hover:opacity-90 transition-opacity"
             style={{ backgroundColor: BOOKING_BLUE }}
           >
-            Read all reviews on Booking.com <ExternalLink className="w-4 h-4" />
+            {t.reviews.ctaAll} <ExternalLink className="w-4 h-4" />
           </a>
           <a
             href={BOOKING}
@@ -453,7 +449,7 @@ function Reviews() {
             className="inline-flex items-center h-12 px-7 rounded-sm border-2 font-medium hover:bg-muted transition-colors"
             style={{ borderColor: BOOKING_BLUE, color: BOOKING_BLUE }}
           >
-            Check availability & book
+            {t.reviews.ctaCheck}
           </a>
         </div>
       </div>

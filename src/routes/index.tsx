@@ -184,20 +184,20 @@ function Hero() {
       />
       <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-black/30 to-black/75" />
       <div className="relative z-10 text-center px-6 max-w-4xl">
-        <p className="reveal text-white/80 tracking-[0.3em] text-xs md:text-sm uppercase mb-6">
+        <p className="text-white/80 tracking-[0.3em] text-xs md:text-sm uppercase mb-6 animate-fade-in">
           {t.hero.eyebrow}
         </p>
-        <h1 className="reveal font-serif text-5xl md:text-7xl lg:text-8xl text-white leading-[1.05] font-light">
+        <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl text-white leading-[1.05] font-light animate-fade-in">
           {t.hero.title}
         </h1>
-        <p className="reveal mt-6 text-lg md:text-2xl text-white/90 font-light font-serif italic">
+        <p className="mt-6 text-lg md:text-2xl text-white/90 font-light font-serif italic animate-fade-in">
           {t.hero.subtitle}
         </p>
-        <p className="reveal mt-3 text-base md:text-lg text-white/75 max-w-2xl mx-auto font-light">
+        <p className="mt-3 text-base md:text-lg text-white/75 max-w-2xl mx-auto font-light animate-fade-in">
           {t.hero.desc}
         </p>
 
-        <div className="reveal mt-6 inline-flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-white/90 text-sm">
+        <div className="mt-6 inline-flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-white/90 text-sm animate-fade-in">
           <span className="flex items-center gap-0.5 text-amber-300">
             {Array.from({ length: 5 }).map((_, i) => (
               <Star key={i} className="w-4 h-4 fill-current" strokeWidth={0} />
@@ -208,7 +208,7 @@ function Hero() {
           <span>{t.hero.verified}</span>
         </div>
 
-        <div className="reveal mt-8 flex flex-wrap items-center justify-center gap-4">
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-4 animate-fade-in">
           <a
             href={BOOKING}
             target="_blank"

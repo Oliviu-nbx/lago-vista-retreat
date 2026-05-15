@@ -58,25 +58,6 @@ const gallery = [
   { src: bathroom, alt: "Bagno moderno con doccia e lavatrice" },
 ];
 
-function useReveal() {
-  useEffect(() => {
-    const els = document.querySelectorAll(".reveal");
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) {
-            e.target.classList.add("in-view");
-            io.unobserve(e.target);
-          }
-        });
-      },
-      { threshold: 0.12 },
-    );
-    els.forEach((el) => io.observe(el));
-    return () => io.disconnect();
-  }, []);
-}
-
 function Nav() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -245,7 +226,7 @@ function About() {
         </div>
 
         <div className="grid md:grid-cols-12 gap-12 items-center">
-          <div className="md:col-span-7 reveal space-y-8 text-muted-foreground text-lg leading-relaxed font-light">
+          <div className="md:col-span-7 space-y-8 text-muted-foreground text-lg leading-relaxed font-light">
             <div>
               <h3 className="font-serif text-2xl text-foreground mb-2">{t.about.h1}</h3>
               <p>{t.about.p1}</p>
@@ -259,7 +240,7 @@ function About() {
               <p>{t.about.p3}</p>
             </div>
           </div>
-          <div className="md:col-span-5 reveal">
+          <div className="md:col-span-5">
             <div className="relative">
               <img
                 src={bedroom}
@@ -304,7 +285,7 @@ function Gallery() {
   return (
     <section id="gallery" className="py-24 md:py-32 px-6 bg-muted/40">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16 reveal">
+        <div className="text-center mb-16">
           <p className="text-primary tracking-[0.25em] text-xs uppercase mb-4">
             {t.gallery.eyebrow}
           </p>
@@ -317,7 +298,7 @@ function Gallery() {
               <button
                 key={i}
                 onClick={() => setIdx(i)}
-                className={`reveal group relative overflow-hidden rounded-sm bg-muted ${
+                className={`group relative overflow-hidden rounded-sm bg-muted ${
                   big ? "md:col-span-2 md:row-span-2" : ""
                 }`}
               >
@@ -401,7 +382,7 @@ function Amenities() {
             return (
               <div
                 key={i}
-                className="reveal bg-background p-8 flex flex-col items-center text-center gap-3 hover:bg-muted/40 transition-colors"
+                className="bg-background p-8 flex flex-col items-center text-center gap-3 hover:bg-muted/40 transition-colors"
               >
                 <Icon className="w-7 h-7 text-primary" strokeWidth={1.4} />
                 <p className="text-sm text-foreground/80">{label}</p>
@@ -410,7 +391,7 @@ function Amenities() {
           })}
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 reveal">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {(t.amenities.groups as { title: string; items: string[] }[]).map((g) => (
             <div key={g.title} className="bg-card border border-border rounded-sm p-6">
               <h3 className="font-serif text-xl text-foreground mb-3">{g.title}</h3>
@@ -426,7 +407,7 @@ function Amenities() {
           ))}
         </div>
 
-        <p className="reveal mt-10 text-center text-sm text-muted-foreground">
+        <p className="mt-10 text-center text-sm text-muted-foreground">
           <span className="font-medium text-foreground">{t.amenities.langs}</span> 🇩🇪 Deutsch · 🇬🇧
           English · 🇮🇹 Italiano
         </p>
@@ -440,14 +421,14 @@ function Reviews() {
   return (
     <section id="reviews" className="py-24 md:py-32 px-6 bg-muted/40">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-12 reveal">
+        <div className="text-center mb-12">
           <p className="text-primary tracking-[0.25em] text-xs uppercase mb-4">
             {t.reviews.eyebrow}
           </p>
           <h2 className="font-serif text-4xl md:text-5xl">{t.reviews.title}</h2>
         </div>
 
-        <div className="reveal flex flex-wrap items-center gap-6 mb-10">
+        <div className="flex flex-wrap items-center gap-6 mb-10">
           <div
             className="rounded-xl px-6 py-5 text-white shadow-lg"
             style={{ backgroundColor: BOOKING_DARK }}
@@ -461,7 +442,7 @@ function Reviews() {
           </div>
         </div>
 
-        <div className="reveal grid grid-cols-2 md:grid-cols-3 gap-x-8 gap-y-5 mb-14">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-x-8 gap-y-5 mb-14">
           {(t.reviews.categories as { label: string; score: number }[]).map((c) => (
             <div key={c.label}>
               <div className="flex justify-between text-sm mb-1.5">
@@ -482,7 +463,7 @@ function Reviews() {
           {(t.reviews.cards as { name: string; flag: string; quote: string }[]).map((r) => (
             <div
               key={r.name}
-              className="reveal bg-background border border-border rounded-lg p-7 shadow-[var(--shadow-soft)]"
+              className="bg-background border border-border rounded-lg p-7 shadow-[var(--shadow-soft)]"
             >
               <p className="italic text-foreground/85 leading-relaxed">"{r.quote}"</p>
               <p className="mt-4 text-sm font-medium text-foreground">
@@ -492,11 +473,11 @@ function Reviews() {
           ))}
         </div>
 
-        <p className="reveal mt-6 text-center text-xs text-muted-foreground">
+        <p className="mt-6 text-center text-xs text-muted-foreground">
           {t.reviews.footnote}
         </p>
 
-        <div className="reveal mt-10 flex flex-wrap items-center justify-center gap-4">
+        <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
           <a
             href={BOOKING}
             target="_blank"
@@ -558,7 +539,7 @@ function Location() {
   return (
     <section id="location" className="py-24 md:py-32 px-6 bg-muted/40">
       <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
-        <div className="reveal">
+        <div className="">
           <p className="text-primary tracking-[0.25em] text-xs uppercase mb-4">
             {t.location.eyebrow}
           </p>
@@ -585,7 +566,7 @@ function Location() {
             </p>
           </div>
         </div>
-        <div className="reveal aspect-[4/3] rounded-sm overflow-hidden shadow-[var(--shadow-elegant)] border border-border">
+        <div className="aspect-[4/3] rounded-sm overflow-hidden shadow-[var(--shadow-elegant)] border border-border">
           <iframe
             title="Mappa - Viale degli Alpini 12, Peschiera del Garda"
             src="https://www.google.com/maps?q=Viale+degli+Alpini+12,+37019+Peschiera+del+Garda+VR,+Italia&z=15&output=embed"
@@ -604,7 +585,7 @@ function HouseRules() {
   const rules = t.rules.list as { label: string; value: string }[];
   return (
     <section className="py-20 px-6">
-      <div className="max-w-5xl mx-auto reveal">
+      <div className="max-w-5xl mx-auto">
         <div className="text-center mb-10">
           <p className="text-primary tracking-[0.25em] text-xs uppercase mb-3">{t.rules.eyebrow}</p>
           <h2 className="font-serif text-3xl md:text-4xl">{t.rules.title}</h2>
@@ -657,7 +638,7 @@ function Contact() {
   return (
     <section id="contact" className="py-24 md:py-32 px-6">
       <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16">
-        <div className="reveal">
+        <div className="">
           <p className="text-primary tracking-[0.25em] text-xs uppercase mb-4">
             {t.contact.eyebrow}
           </p>
@@ -735,7 +716,7 @@ function Contact() {
         <form
           ref={formRef}
           onSubmit={onSubmit}
-          className="reveal bg-card border border-border rounded-sm p-8 md:p-10 shadow-[var(--shadow-soft)] space-y-5"
+          className="bg-card border border-border rounded-sm p-8 md:p-10 shadow-[var(--shadow-soft)] space-y-5"
         >
           <div>
             <Label htmlFor="name">{t.contact.name} *</Label>
@@ -858,10 +839,33 @@ function WhatsAppFloat() {
       target="_blank"
       rel="noreferrer"
       aria-label="Contattaci su WhatsApp"
-      className="fixed bottom-20 right-4 lg:bottom-6 lg:right-6 z-40 w-14 h-14 rounded-full bg-[#25D366] text-white flex items-center justify-center shadow-[var(--shadow-elegant)] hover:scale-110 transition-transform"
+      className="w-14 h-14 rounded-full bg-[#25D366] text-white flex items-center justify-center shadow-[var(--shadow-elegant)] hover:scale-110 transition-transform"
     >
       <MessageCircle className="w-7 h-7" />
     </a>
+  );
+}
+
+function LanguageFloat() {
+  const { lang, setLang } = useI18n();
+  const next = lang === "it" ? "en" : "it";
+  return (
+    <button
+      onClick={() => setLang(next)}
+      aria-label={`Switch language to ${next.toUpperCase()}`}
+      className="w-14 h-14 rounded-full bg-background border border-border text-foreground font-semibold text-sm flex items-center justify-center shadow-[var(--shadow-elegant)] hover:scale-110 transition-transform"
+    >
+      {lang.toUpperCase()}
+    </button>
+  );
+}
+
+function FloatingActions() {
+  return (
+    <div className="fixed bottom-20 right-4 lg:bottom-6 lg:right-6 z-40 flex flex-col items-center gap-3">
+      <LanguageFloat />
+      <WhatsAppFloat />
+    </div>
   );
 }
 
@@ -928,7 +932,6 @@ function StickyBookingBar() {
 }
 
 function Index() {
-  useReveal();
   return (
     <div className="bg-background text-foreground">
       <Nav />
@@ -944,7 +947,7 @@ function Index() {
         <Contact />
       </main>
       <Footer />
-      <WhatsAppFloat />
+      <FloatingActions />
       <StickyBookingBar />
       <CookieConsent />
       <Toaster />

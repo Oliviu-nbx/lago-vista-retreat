@@ -714,6 +714,7 @@ function WhatsAppFloat() {
 
 function StickyBookingBar() {
   const [show, setShow] = useState(false);
+  const { t } = useI18n();
   useEffect(() => {
     const onScroll = () => setShow(window.scrollY > window.innerHeight * 0.9);
     onScroll();
@@ -732,9 +733,9 @@ function StickyBookingBar() {
           >
             8.9
           </span>
-          <span className="text-sm font-medium">Fabulous</span>
+          <span className="text-sm font-medium">{t.booking.ratingWord}</span>
         </div>
-        <p className="text-xs text-muted-foreground leading-snug">Marin Apartment — direttamente dall'host</p>
+        <p className="text-xs text-muted-foreground leading-snug">{t.booking.directHost}</p>
         <a
           href={BOOKING}
           target="_blank"
@@ -742,7 +743,7 @@ function StickyBookingBar() {
           className="inline-flex items-center justify-center h-10 rounded-sm text-white text-sm font-medium hover:opacity-90 transition-opacity"
           style={{ backgroundColor: BOOKING_BLUE }}
         >
-          Book on Booking.com
+          {t.nav.book}
         </a>
       </div>
       {/* Mobile: bottom bar */}
@@ -755,7 +756,7 @@ function StickyBookingBar() {
         </span>
         <div className="flex-1 min-w-0">
           <p className="text-xs font-medium leading-tight truncate">Marin Apartment</p>
-          <p className="text-[10px] text-muted-foreground leading-tight">Fabulous · 8 reviews</p>
+          <p className="text-[10px] text-muted-foreground leading-tight">{t.booking.ratingWord} · {t.booking.reviewsShort}</p>
         </div>
         <a
           href={BOOKING}
@@ -764,7 +765,7 @@ function StickyBookingBar() {
           className="inline-flex items-center justify-center h-10 px-4 rounded-sm text-white text-sm font-medium flex-shrink-0"
           style={{ backgroundColor: BOOKING_BLUE }}
         >
-          Book
+          {t.booking.bookShort}
         </a>
       </div>
     </>
@@ -790,6 +791,7 @@ function Index() {
       <Footer />
       <WhatsAppFloat />
       <StickyBookingBar />
+      <CookieConsent />
       <Toaster />
     </div>
   );

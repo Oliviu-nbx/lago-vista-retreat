@@ -878,11 +878,14 @@ function StickyBookingBar() {
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-  if (!show) return null;
+  const visibilityClasses = show ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none";
   return (
     <>
       {/* Desktop: floating right card */}
-      <div className="hidden lg:flex fixed right-6 top-1/2 -translate-y-1/2 z-30 flex-col gap-3 bg-background border border-border rounded-lg shadow-[var(--shadow-elegant)] p-4 w-60">
+      <div
+        aria-hidden={!show}
+        className={`hidden lg:flex fixed right-6 top-1/2 -translate-y-1/2 z-30 flex-col gap-3 bg-background border border-border rounded-lg shadow-[var(--shadow-elegant)] p-4 w-60 [overflow-anchor:none] ${visibilityClasses}`}
+      >
         <div className="flex items-center gap-2">
           <span
             className="inline-flex items-center justify-center px-2 py-1 rounded text-white text-xs font-bold"
@@ -897,6 +900,7 @@ function StickyBookingBar() {
           href={BOOKING}
           target="_blank"
           rel="noopener"
+          tabIndex={show ? 0 : -1}
           className="inline-flex items-center justify-center h-10 rounded-sm text-white text-sm font-medium hover:opacity-90 transition-opacity"
           style={{ backgroundColor: BOOKING_BLUE }}
         >
@@ -904,7 +908,10 @@ function StickyBookingBar() {
         </a>
       </div>
       {/* Mobile: bottom bar */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-30 bg-background border-t border-border px-4 py-3 flex items-center gap-3 shadow-[0_-4px_20px_rgba(0,0,0,0.08)]">
+      <div
+        aria-hidden={!show}
+        className={`lg:hidden fixed bottom-0 left-0 right-0 z-30 bg-background border-t border-border px-4 py-3 flex items-center gap-3 shadow-[0_-4px_20px_rgba(0,0,0,0.08)] [overflow-anchor:none] ${visibilityClasses}`}
+      >
         <span
           className="inline-flex items-center justify-center px-2 py-1 rounded text-white text-xs font-bold flex-shrink-0"
           style={{ backgroundColor: BOOKING_DARK }}
@@ -921,6 +928,7 @@ function StickyBookingBar() {
           href={BOOKING}
           target="_blank"
           rel="noopener"
+          tabIndex={show ? 0 : -1}
           className="inline-flex items-center justify-center h-10 px-4 rounded-sm text-white text-sm font-medium flex-shrink-0"
           style={{ backgroundColor: BOOKING_BLUE }}
         >

@@ -1,9 +1,24 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import {
-  Wifi, UtensilsCrossed, Car, Snowflake, Tv, Sun, WashingMachine,
-  Coffee, MapPin, Mail, Phone, MessageCircle, X, ChevronLeft, ChevronRight, Menu,
-  Star, ExternalLink,
+  Wifi,
+  UtensilsCrossed,
+  Car,
+  Snowflake,
+  Tv,
+  Sun,
+  WashingMachine,
+  Coffee,
+  MapPin,
+  Mail,
+  Phone,
+  MessageCircle,
+  X,
+  ChevronLeft,
+  ChevronRight,
+  Menu,
+  Star,
+  ExternalLink,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -55,7 +70,7 @@ function useReveal() {
           }
         });
       },
-      { threshold: 0.12 }
+      { threshold: 0.12 },
     );
     els.forEach((el) => io.observe(el));
     return () => io.disconnect();
@@ -87,7 +102,10 @@ function Nav() {
       }`}
     >
       <nav className="max-w-7xl mx-auto px-6 lg:px-10 h-16 flex items-center justify-between">
-        <a href="#hero" className={`font-serif text-xl tracking-wide ${scrolled ? "text-foreground" : "text-white"}`}>
+        <a
+          href="#hero"
+          className={`font-serif text-xl tracking-wide ${scrolled ? "text-foreground" : "text-white"}`}
+        >
           Marin Apartment
         </a>
         <div className="hidden md:flex items-center gap-7">
@@ -127,7 +145,12 @@ function Nav() {
       {open && (
         <div className="md:hidden bg-background/95 backdrop-blur-md border-b border-border px-6 py-4 flex flex-col gap-4">
           {links.map(([h, l]) => (
-            <a key={h} href={h} onClick={() => setOpen(false)} className="text-foreground/80 hover:text-primary">
+            <a
+              key={h}
+              href={h}
+              onClick={() => setOpen(false)}
+              className="text-foreground/80 hover:text-primary"
+            >
               {l}
             </a>
           ))}
@@ -150,7 +173,10 @@ function Nav() {
 function Hero() {
   const { t } = useI18n();
   return (
-    <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section
+      id="hero"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+    >
       <img
         src={view}
         alt="Marin Apartment — vista sul Lago di Garda da Peschiera del Garda"
@@ -212,7 +238,7 @@ function About() {
   return (
     <section id="about" className="py-24 md:py-32 px-6">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-14 reveal">
+        <div className="text-center mb-14">
           <p className="text-primary tracking-[0.25em] text-xs uppercase mb-4">{t.about.eyebrow}</p>
           <h2 className="font-serif text-4xl md:text-5xl leading-tight">{t.about.title}</h2>
           <p className="mt-4 text-muted-foreground text-sm md:text-base">{t.about.meta}</p>
@@ -242,7 +268,9 @@ function About() {
               />
               <div className="absolute -bottom-6 -left-6 bg-background border border-border px-6 py-4 rounded-sm shadow-[var(--shadow-soft)] hidden md:block">
                 <p className="font-serif text-2xl text-primary">{t.about.badgeGuests}</p>
-                <p className="text-xs text-muted-foreground tracking-widest uppercase">{t.about.badgeMeta}</p>
+                <p className="text-xs text-muted-foreground tracking-widest uppercase">
+                  {t.about.badgeMeta}
+                </p>
               </div>
             </div>
           </div>
@@ -277,7 +305,9 @@ function Gallery() {
     <section id="gallery" className="py-24 md:py-32 px-6 bg-muted/40">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16 reveal">
-          <p className="text-primary tracking-[0.25em] text-xs uppercase mb-4">{t.gallery.eyebrow}</p>
+          <p className="text-primary tracking-[0.25em] text-xs uppercase mb-4">
+            {t.gallery.eyebrow}
+          </p>
           <h2 className="font-serif text-4xl md:text-5xl">{t.gallery.title}</h2>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 auto-rows-[200px] md:auto-rows-[260px]">
@@ -309,10 +339,21 @@ function Gallery() {
           className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4"
           onClick={close}
         >
-          <button className="absolute top-6 right-6 text-white/80 hover:text-white" onClick={close} aria-label={t.gallery.close}>
+          <button
+            className="absolute top-6 right-6 text-white/80 hover:text-white"
+            onClick={close}
+            aria-label={t.gallery.close}
+          >
             <X size={32} />
           </button>
-          <button className="absolute left-4 md:left-8 text-white/80 hover:text-white" onClick={(e) => { e.stopPropagation(); prev(); }} aria-label={t.gallery.prev}>
+          <button
+            className="absolute left-4 md:left-8 text-white/80 hover:text-white"
+            onClick={(e) => {
+              e.stopPropagation();
+              prev();
+            }}
+            aria-label={t.gallery.prev}
+          >
             <ChevronLeft size={40} />
           </button>
           <img
@@ -321,7 +362,14 @@ function Gallery() {
             className="max-h-[88vh] max-w-[90vw] object-contain"
             onClick={(e) => e.stopPropagation()}
           />
-          <button className="absolute right-4 md:right-8 text-white/80 hover:text-white" onClick={(e) => { e.stopPropagation(); next(); }} aria-label={t.gallery.next}>
+          <button
+            className="absolute right-4 md:right-8 text-white/80 hover:text-white"
+            onClick={(e) => {
+              e.stopPropagation();
+              next();
+            }}
+            aria-label={t.gallery.next}
+          >
             <ChevronRight size={40} />
           </button>
           <p className="absolute bottom-6 left-0 right-0 text-center text-white/70 text-sm">
@@ -340,8 +388,10 @@ function Amenities() {
   return (
     <section id="amenities" className="py-24 md:py-32 px-6">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-14 reveal">
-          <p className="text-primary tracking-[0.25em] text-xs uppercase mb-4">{t.amenities.eyebrow}</p>
+        <div className="text-center mb-14">
+          <p className="text-primary tracking-[0.25em] text-xs uppercase mb-4">
+            {t.amenities.eyebrow}
+          </p>
           <h2 className="font-serif text-4xl md:text-5xl">{t.amenities.title}</h2>
         </div>
 
@@ -349,7 +399,10 @@ function Amenities() {
           {iconLabels.map((label, i) => {
             const Icon = icons[i];
             return (
-              <div key={i} className="reveal bg-background p-8 flex flex-col items-center text-center gap-3 hover:bg-muted/40 transition-colors">
+              <div
+                key={i}
+                className="reveal bg-background p-8 flex flex-col items-center text-center gap-3 hover:bg-muted/40 transition-colors"
+              >
                 <Icon className="w-7 h-7 text-primary" strokeWidth={1.4} />
                 <p className="text-sm text-foreground/80">{label}</p>
               </div>
@@ -363,7 +416,10 @@ function Amenities() {
               <h3 className="font-serif text-xl text-foreground mb-3">{g.title}</h3>
               <ul className="text-sm text-muted-foreground space-y-1.5">
                 {g.items.map((it) => (
-                  <li key={it} className="flex gap-2"><span className="text-primary">·</span>{it}</li>
+                  <li key={it} className="flex gap-2">
+                    <span className="text-primary">·</span>
+                    {it}
+                  </li>
                 ))}
               </ul>
             </div>
@@ -371,7 +427,8 @@ function Amenities() {
         </div>
 
         <p className="reveal mt-10 text-center text-sm text-muted-foreground">
-          <span className="font-medium text-foreground">{t.amenities.langs}</span> 🇩🇪 Deutsch · 🇬🇧 English · 🇮🇹 Italiano
+          <span className="font-medium text-foreground">{t.amenities.langs}</span> 🇩🇪 Deutsch · 🇬🇧
+          English · 🇮🇹 Italiano
         </p>
       </div>
     </section>
@@ -384,7 +441,9 @@ function Reviews() {
     <section id="reviews" className="py-24 md:py-32 px-6 bg-muted/40">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12 reveal">
-          <p className="text-primary tracking-[0.25em] text-xs uppercase mb-4">{t.reviews.eyebrow}</p>
+          <p className="text-primary tracking-[0.25em] text-xs uppercase mb-4">
+            {t.reviews.eyebrow}
+          </p>
           <h2 className="font-serif text-4xl md:text-5xl">{t.reviews.title}</h2>
         </div>
 
@@ -421,9 +480,14 @@ function Reviews() {
 
         <div className="grid md:grid-cols-2 gap-6">
           {(t.reviews.cards as { name: string; flag: string; quote: string }[]).map((r) => (
-            <div key={r.name} className="reveal bg-background border border-border rounded-lg p-7 shadow-[var(--shadow-soft)]">
+            <div
+              key={r.name}
+              className="reveal bg-background border border-border rounded-lg p-7 shadow-[var(--shadow-soft)]"
+            >
               <p className="italic text-foreground/85 leading-relaxed">"{r.quote}"</p>
-              <p className="mt-4 text-sm font-medium text-foreground">{r.name} <span className="ml-1">{r.flag}</span></p>
+              <p className="mt-4 text-sm font-medium text-foreground">
+                {r.name} <span className="ml-1">{r.flag}</span>
+              </p>
             </div>
           ))}
         </div>
@@ -461,19 +525,24 @@ function Neighborhood() {
   const { t } = useI18n();
   const groups = t.neighborhood.groups as { title: string; items: string[] }[];
   return (
-    <section className="py-24 md:py-32 px-6">
+    <section id="neighborhood" className="py-24 md:py-32 px-6">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-14 reveal">
-          <p className="text-primary tracking-[0.25em] text-xs uppercase mb-4">{t.neighborhood.eyebrow}</p>
+        <div className="text-center mb-14">
+          <p className="text-primary tracking-[0.25em] text-xs uppercase mb-4">
+            {t.neighborhood.eyebrow}
+          </p>
           <h2 className="font-serif text-4xl md:text-5xl">{t.neighborhood.title}</h2>
         </div>
         <div className="grid md:grid-cols-3 gap-8">
           {groups.map((g) => (
-            <div key={g.title} className="reveal bg-card border border-border rounded-sm p-7">
+            <div key={g.title} className="bg-card border border-border rounded-sm p-7">
               <h3 className="font-serif text-xl text-foreground mb-4">{g.title}</h3>
               <ul className="space-y-2 text-sm text-muted-foreground">
                 {g.items.map((it) => (
-                  <li key={it} className="flex gap-2"><MapPin className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />{it}</li>
+                  <li key={it} className="flex gap-2">
+                    <MapPin className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
+                    {it}
+                  </li>
                 ))}
               </ul>
             </div>
@@ -490,13 +559,19 @@ function Location() {
     <section id="location" className="py-24 md:py-32 px-6 bg-muted/40">
       <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
         <div className="reveal">
-          <p className="text-primary tracking-[0.25em] text-xs uppercase mb-4">{t.location.eyebrow}</p>
+          <p className="text-primary tracking-[0.25em] text-xs uppercase mb-4">
+            {t.location.eyebrow}
+          </p>
           <h2 className="font-serif text-4xl md:text-5xl mb-8">
-            {t.location.title1}<br />{t.location.title2}
+            {t.location.title1}
+            <br />
+            {t.location.title2}
           </h2>
           <div className="space-y-4 text-muted-foreground text-lg font-light leading-relaxed">
             <p>
-              {t.location.p1pre}<span className="text-foreground font-medium">{t.location.address}</span>{t.location.p1post}
+              {t.location.p1pre}
+              <span className="text-foreground font-medium">{t.location.address}</span>
+              {t.location.p1post}
             </p>
             <p>{t.location.p2}</p>
           </div>
@@ -505,7 +580,9 @@ function Location() {
               <MapPin className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
               <span className="font-medium">{t.location.addressFull}</span>
             </div>
-            <p className="text-xs text-muted-foreground tracking-wider uppercase ml-8">{t.location.license}</p>
+            <p className="text-xs text-muted-foreground tracking-wider uppercase ml-8">
+              {t.location.license}
+            </p>
           </div>
         </div>
         <div className="reveal aspect-[4/3] rounded-sm overflow-hidden shadow-[var(--shadow-elegant)] border border-border">
@@ -535,7 +612,9 @@ function HouseRules() {
         <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-px bg-border rounded-sm overflow-hidden">
           {rules.map((r) => (
             <div key={r.label} className="bg-background p-5">
-              <p className="text-xs uppercase tracking-widest text-muted-foreground mb-1">{r.label}</p>
+              <p className="text-xs uppercase tracking-widest text-muted-foreground mb-1">
+                {r.label}
+              </p>
               <p className="text-sm text-foreground">{r.value}</p>
             </div>
           ))}
@@ -565,7 +644,7 @@ function Contact() {
     }
     const subject = encodeURIComponent(`Marin Apartment — ${t.contact.requestSubject} ${name}`);
     const body = encodeURIComponent(
-      `${t.contact.name}: ${name}\n${t.contact.email}: ${email}\n${t.contact.dates}: ${dates}\n\n${t.contact.message}:\n${message}`
+      `${t.contact.name}: ${name}\n${t.contact.email}: ${email}\n${t.contact.dates}: ${dates}\n\n${t.contact.message}:\n${message}`,
     );
     window.location.href = `mailto:${EMAIL}?subject=${subject}&body=${body}`;
     setTimeout(() => {
@@ -579,11 +658,17 @@ function Contact() {
     <section id="contact" className="py-24 md:py-32 px-6">
       <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16">
         <div className="reveal">
-          <p className="text-primary tracking-[0.25em] text-xs uppercase mb-4">{t.contact.eyebrow}</p>
+          <p className="text-primary tracking-[0.25em] text-xs uppercase mb-4">
+            {t.contact.eyebrow}
+          </p>
           <h2 className="font-serif text-4xl md:text-5xl mb-8">
-            {t.contact.title1}<br />{t.contact.title2}
+            {t.contact.title1}
+            <br />
+            {t.contact.title2}
           </h2>
-          <p className="text-muted-foreground text-lg font-light mb-8 leading-relaxed">{t.contact.desc}</p>
+          <p className="text-muted-foreground text-lg font-light mb-8 leading-relaxed">
+            {t.contact.desc}
+          </p>
           <a
             href={BOOKING}
             target="_blank"
@@ -595,34 +680,51 @@ function Contact() {
           </a>
           <ul className="space-y-5">
             <li>
-              <a href={`mailto:${EMAIL}`} className="group flex items-center gap-4 text-foreground hover:text-primary transition-colors">
+              <a
+                href={`mailto:${EMAIL}`}
+                className="group flex items-center gap-4 text-foreground hover:text-primary transition-colors"
+              >
                 <span className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
                   <Mail className="w-5 h-5 text-primary" />
                 </span>
                 <span>
-                  <span className="block text-xs tracking-widest uppercase text-muted-foreground">{t.contact.email}</span>
+                  <span className="block text-xs tracking-widest uppercase text-muted-foreground">
+                    {t.contact.email}
+                  </span>
                   <span className="text-base">{EMAIL}</span>
                 </span>
               </a>
             </li>
             <li>
-              <a href={`tel:${PHONE_RAW}`} className="group flex items-center gap-4 text-foreground hover:text-primary transition-colors">
+              <a
+                href={`tel:${PHONE_RAW}`}
+                className="group flex items-center gap-4 text-foreground hover:text-primary transition-colors"
+              >
                 <span className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
                   <Phone className="w-5 h-5 text-primary" />
                 </span>
                 <span>
-                  <span className="block text-xs tracking-widest uppercase text-muted-foreground">{t.contact.phone}</span>
+                  <span className="block text-xs tracking-widest uppercase text-muted-foreground">
+                    {t.contact.phone}
+                  </span>
                   <span className="text-base">{PHONE}</span>
                 </span>
               </a>
             </li>
             <li>
-              <a href={WHATSAPP} target="_blank" rel="noreferrer" className="group flex items-center gap-4 text-foreground hover:text-primary transition-colors">
+              <a
+                href={WHATSAPP}
+                target="_blank"
+                rel="noreferrer"
+                className="group flex items-center gap-4 text-foreground hover:text-primary transition-colors"
+              >
                 <span className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
                   <MessageCircle className="w-5 h-5 text-primary" />
                 </span>
                 <span>
-                  <span className="block text-xs tracking-widest uppercase text-muted-foreground">{t.contact.whatsapp}</span>
+                  <span className="block text-xs tracking-widest uppercase text-muted-foreground">
+                    {t.contact.whatsapp}
+                  </span>
                   <span className="text-base">{PHONE}</span>
                 </span>
               </a>
@@ -630,7 +732,11 @@ function Contact() {
           </ul>
         </div>
 
-        <form ref={formRef} onSubmit={onSubmit} className="reveal bg-card border border-border rounded-sm p-8 md:p-10 shadow-[var(--shadow-soft)] space-y-5">
+        <form
+          ref={formRef}
+          onSubmit={onSubmit}
+          className="reveal bg-card border border-border rounded-sm p-8 md:p-10 shadow-[var(--shadow-soft)] space-y-5"
+        >
           <div>
             <Label htmlFor="name">{t.contact.name} *</Label>
             <Input id="name" name="name" required maxLength={100} className="mt-2" />
@@ -641,13 +747,30 @@ function Contact() {
           </div>
           <div>
             <Label htmlFor="dates">{t.contact.dates}</Label>
-            <Input id="dates" name="dates" placeholder={t.contact.datesPh} maxLength={100} className="mt-2" />
+            <Input
+              id="dates"
+              name="dates"
+              placeholder={t.contact.datesPh}
+              maxLength={100}
+              className="mt-2"
+            />
           </div>
           <div>
             <Label htmlFor="message">{t.contact.message} *</Label>
-            <Textarea id="message" name="message" rows={5} required maxLength={1500} className="mt-2" />
+            <Textarea
+              id="message"
+              name="message"
+              rows={5}
+              required
+              maxLength={1500}
+              className="mt-2"
+            />
           </div>
-          <Button type="submit" disabled={sending} className="w-full bg-primary hover:bg-primary/90 h-12">
+          <Button
+            type="submit"
+            disabled={sending}
+            className="w-full bg-primary hover:bg-primary/90 h-12"
+          >
             {sending ? t.contact.sending : t.contact.send}
           </Button>
         </form>
@@ -666,28 +789,58 @@ function Footer() {
           <p className="text-accent-foreground/70 text-sm leading-relaxed">{t.footer.desc}</p>
         </div>
         <div>
-          <p className="text-xs tracking-widest uppercase text-accent-foreground/60 mb-3">{t.footer.addressLabel}</p>
+          <p className="text-xs tracking-widest uppercase text-accent-foreground/60 mb-3">
+            {t.footer.addressLabel}
+          </p>
           <p className="text-sm leading-relaxed">
-            Viale degli Alpini 12/A<br />
-            "Residenza Girasole Palazzina A" Nr. 31, 2° piano<br />
+            Viale degli Alpini 12/A
+            <br />
+            "Residenza Girasole Palazzina A" Nr. 31, 2° piano
+            <br />
             37019 Peschiera del Garda (VR), Italia
           </p>
           <p className="mt-3 text-xs text-accent-foreground/60">{t.location.license}</p>
         </div>
         <div>
-          <p className="text-xs tracking-widest uppercase text-accent-foreground/60 mb-3">{t.footer.contactsLabel}</p>
+          <p className="text-xs tracking-widest uppercase text-accent-foreground/60 mb-3">
+            {t.footer.contactsLabel}
+          </p>
           <div className="text-sm space-y-1">
-            <a href={`mailto:${EMAIL}`} className="block hover:text-primary transition-colors">{EMAIL}</a>
-            <a href={`tel:${PHONE_RAW}`} className="block hover:text-primary transition-colors">{PHONE}</a>
-            <a href={WHATSAPP} target="_blank" rel="noreferrer" className="block hover:text-primary transition-colors">{t.contact.whatsapp}</a>
-            <a href={BOOKING} target="_blank" rel="noopener" className="block hover:text-primary transition-colors">{t.nav.book}</a>
+            <a href={`mailto:${EMAIL}`} className="block hover:text-primary transition-colors">
+              {EMAIL}
+            </a>
+            <a href={`tel:${PHONE_RAW}`} className="block hover:text-primary transition-colors">
+              {PHONE}
+            </a>
+            <a
+              href={WHATSAPP}
+              target="_blank"
+              rel="noreferrer"
+              className="block hover:text-primary transition-colors"
+            >
+              {t.contact.whatsapp}
+            </a>
+            <a
+              href={BOOKING}
+              target="_blank"
+              rel="noopener"
+              className="block hover:text-primary transition-colors"
+            >
+              {t.nav.book}
+            </a>
           </div>
         </div>
         <div>
-          <p className="text-xs tracking-widest uppercase text-accent-foreground/60 mb-3">{t.footer.legal}</p>
+          <p className="text-xs tracking-widest uppercase text-accent-foreground/60 mb-3">
+            {t.footer.legal}
+          </p>
           <div className="text-sm space-y-1">
-            <Link to="/terms" className="block hover:text-primary transition-colors">{t.footer.terms}</Link>
-            <Link to="/cookie-policy" className="block hover:text-primary transition-colors">{t.footer.cookies}</Link>
+            <Link to="/terms" className="block hover:text-primary transition-colors">
+              {t.footer.terms}
+            </Link>
+            <Link to="/cookie-policy" className="block hover:text-primary transition-colors">
+              {t.footer.cookies}
+            </Link>
           </div>
         </div>
       </div>
@@ -756,7 +909,9 @@ function StickyBookingBar() {
         </span>
         <div className="flex-1 min-w-0">
           <p className="text-xs font-medium leading-tight truncate">Marin Apartment</p>
-          <p className="text-[10px] text-muted-foreground leading-tight">{t.booking.ratingWord} · {t.booking.reviewsShort}</p>
+          <p className="text-[10px] text-muted-foreground leading-tight">
+            {t.booking.ratingWord} · {t.booking.reviewsShort}
+          </p>
         </div>
         <a
           href={BOOKING}

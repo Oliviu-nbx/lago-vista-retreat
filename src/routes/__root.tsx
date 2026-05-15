@@ -73,17 +73,43 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Marin Apartment — Recently renovated apartment in Peschiera del Garda, Lake Garda" },
-      { name: "description", content: "Marin Apartment — 8.9/10 Fabulous on Booking.com. A 52 m² renovated apartment in Peschiera del Garda, steps from Lake Garda. Free parking, WiFi, air conditioning. Book directly or via Booking.com." },
-      { property: "og:title", content: "Marin Apartment — Recently renovated apartment in Peschiera del Garda, Lake Garda" },
-      { property: "og:description", content: "Marin Apartment — 8.9/10 Fabulous on Booking.com. A 52 m² renovated apartment in Peschiera del Garda, steps from Lake Garda. Free parking, WiFi, air conditioning. Book directly or via Booking.com." },
+      {
+        title: "Marin Apartment — Recently renovated apartment in Peschiera del Garda, Lake Garda",
+      },
+      {
+        name: "description",
+        content:
+          "Marin Apartment — 8.9/10 Fabulous on Booking.com. A 52 m² renovated apartment in Peschiera del Garda, steps from Lake Garda. Free parking, WiFi, air conditioning. Book directly or via Booking.com.",
+      },
+      {
+        property: "og:title",
+        content:
+          "Marin Apartment — Recently renovated apartment in Peschiera del Garda, Lake Garda",
+      },
+      {
+        property: "og:description",
+        content:
+          "Marin Apartment — 8.9/10 Fabulous on Booking.com. A 52 m² renovated apartment in Peschiera del Garda, steps from Lake Garda. Free parking, WiFi, air conditioning. Book directly or via Booking.com.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
       { name: "twitter:title", content: "Marin Apartment — Peschiera del Garda" },
-      { name: "twitter:description", content: "Marin Apartment — 8.9/10 Fabulous on Booking.com. A 52 m² renovated apartment steps from Lake Garda." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/d20706b9-1625-4dda-b2b9-10d62eec52f8/id-preview-d0c2cfd8--095bce1a-0286-4436-8d9a-1549219273bd.lovable.app-1778762225162.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/d20706b9-1625-4dda-b2b9-10d62eec52f8/id-preview-d0c2cfd8--095bce1a-0286-4436-8d9a-1549219273bd.lovable.app-1778762225162.png" },
+      {
+        name: "twitter:description",
+        content:
+          "Marin Apartment — 8.9/10 Fabulous on Booking.com. A 52 m² renovated apartment steps from Lake Garda.",
+      },
+      {
+        property: "og:image",
+        content:
+          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/d20706b9-1625-4dda-b2b9-10d62eec52f8/id-preview-d0c2cfd8--095bce1a-0286-4436-8d9a-1549219273bd.lovable.app-1778762225162.png",
+      },
+      {
+        name: "twitter:image",
+        content:
+          "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/d20706b9-1625-4dda-b2b9-10d62eec52f8/id-preview-d0c2cfd8--095bce1a-0286-4436-8d9a-1549219273bd.lovable.app-1778762225162.png",
+      },
     ],
     links: [
       {

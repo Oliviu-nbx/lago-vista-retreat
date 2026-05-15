@@ -58,25 +58,6 @@ const gallery = [
   { src: bathroom, alt: "Bagno moderno con doccia e lavatrice" },
 ];
 
-function useReveal() {
-  useEffect(() => {
-    const els = document.querySelectorAll(".reveal");
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) {
-            e.target.classList.add("in-view");
-            io.unobserve(e.target);
-          }
-        });
-      },
-      { threshold: 0.12 },
-    );
-    els.forEach((el) => io.observe(el));
-    return () => io.disconnect();
-  }, []);
-}
-
 function Nav() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -928,7 +909,6 @@ function StickyBookingBar() {
 }
 
 function Index() {
-  useReveal();
   return (
     <div className="bg-background text-foreground">
       <Nav />

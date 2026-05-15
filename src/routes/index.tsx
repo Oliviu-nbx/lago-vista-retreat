@@ -548,6 +548,7 @@ function HouseRules() {
 function Contact() {
   const [sending, setSending] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
+  const { t } = useI18n();
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -558,19 +559,19 @@ function Contact() {
     const dates = String(fd.get("dates") || "").trim();
     const message = String(fd.get("message") || "").trim();
     if (!name || !email || !message) {
-      toast.error("Compila i campi richiesti.");
+      toast.error(t.contact.required);
       setSending(false);
       return;
     }
-    const subject = encodeURIComponent(`Marin Apartment — richiesta di ${name}`);
+    const subject = encodeURIComponent(`Marin Apartment — ${t.contact.requestSubject} ${name}`);
     const body = encodeURIComponent(
-      `Nome: ${name}\nEmail: ${email}\nDate: ${dates}\n\nMessaggio:\n${message}`
+      `${t.contact.name}: ${name}\n${t.contact.email}: ${email}\n${t.contact.dates}: ${dates}\n\n${t.contact.message}:\n${message}`
     );
     window.location.href = `mailto:${EMAIL}?subject=${subject}&body=${body}`;
     setTimeout(() => {
       setSending(false);
       formRef.current?.reset();
-      toast.success("Apertura del client email…");
+      toast.success(t.contact.mailOpen);
     }, 500);
   };
 
@@ -578,14 +579,11 @@ function Contact() {
     <section id="contact" className="py-24 md:py-32 px-6">
       <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16">
         <div className="reveal">
-          <p className="text-primary tracking-[0.25em] text-xs uppercase mb-4">Contatti</p>
+          <p className="text-primary tracking-[0.25em] text-xs uppercase mb-4">{t.contact.eyebrow}</p>
           <h2 className="font-serif text-4xl md:text-5xl mb-8">
-            Parliamone.<br />Il vostro soggiorno inizia qui.
+            {t.contact.title1}<br />{t.contact.title2}
           </h2>
-          <p className="text-muted-foreground text-lg font-light mb-8 leading-relaxed">
-            Scrivete direttamente all'host per disponibilità o domande — risposta entro 24 ore.
-            Oppure prenotate in pochi click su Booking.com.
-          </p>
+          <p className="text-muted-foreground text-lg font-light mb-8 leading-relaxed">{t.contact.desc}</p>
           <a
             href={BOOKING}
             target="_blank"
@@ -593,7 +591,7 @@ function Contact() {
             className="inline-flex items-center gap-2 h-11 px-6 mb-10 rounded-sm text-white font-medium hover:opacity-90 transition-opacity"
             style={{ backgroundColor: BOOKING_BLUE }}
           >
-            Book on Booking.com <ExternalLink className="w-4 h-4" />
+            {t.nav.book} <ExternalLink className="w-4 h-4" />
           </a>
           <ul className="space-y-5">
             <li>
@@ -602,7 +600,7 @@ function Contact() {
                   <Mail className="w-5 h-5 text-primary" />
                 </span>
                 <span>
-                  <span className="block text-xs tracking-widest uppercase text-muted-foreground">Email</span>
+                  <span className="block text-xs tracking-widest uppercase text-muted-foreground">{t.contact.email}</span>
                   <span className="text-base">{EMAIL}</span>
                 </span>
               </a>
@@ -613,7 +611,7 @@ function Contact() {
                   <Phone className="w-5 h-5 text-primary" />
                 </span>
                 <span>
-                  <span className="block text-xs tracking-widest uppercase text-muted-foreground">Telefono</span>
+                  <span className="block text-xs tracking-widest uppercase text-muted-foreground">{t.contact.phone}</span>
                   <span className="text-base">{PHONE}</span>
                 </span>
               </a>
@@ -624,7 +622,7 @@ function Contact() {
                   <MessageCircle className="w-5 h-5 text-primary" />
                 </span>
                 <span>
-                  <span className="block text-xs tracking-widest uppercase text-muted-foreground">WhatsApp</span>
+                  <span className="block text-xs tracking-widest uppercase text-muted-foreground">{t.contact.whatsapp}</span>
                   <span className="text-base">{PHONE}</span>
                 </span>
               </a>
@@ -634,23 +632,23 @@ function Contact() {
 
         <form ref={formRef} onSubmit={onSubmit} className="reveal bg-card border border-border rounded-sm p-8 md:p-10 shadow-[var(--shadow-soft)] space-y-5">
           <div>
-            <Label htmlFor="name">Nome *</Label>
+            <Label htmlFor="name">{t.contact.name} *</Label>
             <Input id="name" name="name" required maxLength={100} className="mt-2" />
           </div>
           <div>
-            <Label htmlFor="email">Email *</Label>
+            <Label htmlFor="email">{t.contact.email} *</Label>
             <Input id="email" name="email" type="email" required maxLength={255} className="mt-2" />
           </div>
           <div>
-            <Label htmlFor="dates">Date desiderate</Label>
-            <Input id="dates" name="dates" placeholder="es. 12–19 luglio" maxLength={100} className="mt-2" />
+            <Label htmlFor="dates">{t.contact.dates}</Label>
+            <Input id="dates" name="dates" placeholder={t.contact.datesPh} maxLength={100} className="mt-2" />
           </div>
           <div>
-            <Label htmlFor="message">Messaggio *</Label>
+            <Label htmlFor="message">{t.contact.message} *</Label>
             <Textarea id="message" name="message" rows={5} required maxLength={1500} className="mt-2" />
           </div>
           <Button type="submit" disabled={sending} className="w-full bg-primary hover:bg-primary/90 h-12">
-            {sending ? "Invio…" : "Invia richiesta"}
+            {sending ? t.contact.sending : t.contact.send}
           </Button>
         </form>
       </div>
@@ -659,37 +657,42 @@ function Contact() {
 }
 
 function Footer() {
+  const { t } = useI18n();
   return (
     <footer className="bg-accent text-accent-foreground py-14 px-6">
-      <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-10">
+      <div className="max-w-7xl mx-auto grid md:grid-cols-4 gap-10">
         <div>
           <p className="font-serif text-2xl mb-3">Marin Apartment</p>
-          <p className="text-accent-foreground/70 text-sm leading-relaxed">
-            Appartamento privato recentemente rinnovato sulla riva sud del Lago di Garda,
-            a Peschiera del Garda (VR).
-          </p>
+          <p className="text-accent-foreground/70 text-sm leading-relaxed">{t.footer.desc}</p>
         </div>
         <div>
-          <p className="text-xs tracking-widest uppercase text-accent-foreground/60 mb-3">Indirizzo</p>
+          <p className="text-xs tracking-widest uppercase text-accent-foreground/60 mb-3">{t.footer.addressLabel}</p>
           <p className="text-sm leading-relaxed">
             Viale degli Alpini 12/A<br />
             "Residenza Girasole Palazzina A" Nr. 31, 2° piano<br />
             37019 Peschiera del Garda (VR), Italia
           </p>
-          <p className="mt-3 text-xs text-accent-foreground/60">Licenza: 023059-LOC-01989</p>
+          <p className="mt-3 text-xs text-accent-foreground/60">{t.location.license}</p>
         </div>
         <div>
-          <p className="text-xs tracking-widest uppercase text-accent-foreground/60 mb-3">Contatti</p>
+          <p className="text-xs tracking-widest uppercase text-accent-foreground/60 mb-3">{t.footer.contactsLabel}</p>
           <div className="text-sm space-y-1">
             <a href={`mailto:${EMAIL}`} className="block hover:text-primary transition-colors">{EMAIL}</a>
             <a href={`tel:${PHONE_RAW}`} className="block hover:text-primary transition-colors">{PHONE}</a>
-            <a href={WHATSAPP} target="_blank" rel="noreferrer" className="block hover:text-primary transition-colors">WhatsApp</a>
-            <a href={BOOKING} target="_blank" rel="noopener" className="block hover:text-primary transition-colors">Book on Booking.com</a>
+            <a href={WHATSAPP} target="_blank" rel="noreferrer" className="block hover:text-primary transition-colors">{t.contact.whatsapp}</a>
+            <a href={BOOKING} target="_blank" rel="noopener" className="block hover:text-primary transition-colors">{t.nav.book}</a>
+          </div>
+        </div>
+        <div>
+          <p className="text-xs tracking-widest uppercase text-accent-foreground/60 mb-3">{t.footer.legal}</p>
+          <div className="text-sm space-y-1">
+            <Link to="/terms" className="block hover:text-primary transition-colors">{t.footer.terms}</Link>
+            <Link to="/cookie-policy" className="block hover:text-primary transition-colors">{t.footer.cookies}</Link>
           </div>
         </div>
       </div>
       <div className="max-w-7xl mx-auto mt-12 pt-6 border-t border-accent-foreground/15 text-xs text-accent-foreground/50 text-center">
-        © {new Date().getFullYear()} Marin Apartment · Peschiera del Garda. Tutti i diritti riservati.
+        © {new Date().getFullYear()} Marin Apartment · Peschiera del Garda. {t.footer.rights}
       </div>
     </footer>
   );
